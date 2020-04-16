@@ -1,11 +1,16 @@
 package com.qintess.letsgo.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 
 @Entity
@@ -16,13 +21,28 @@ public class ItemPedido {
 	private int id;
 	@ManyToOne(optional = false)
 	private Pedido pedido;
-	@ManyToOne(optional = false)
-	private Ingresso ingresso;
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Ingresso> ingressos = new ArrayList<>();
 	@Column(nullable = false)
 	private int quantidade;
 	@Column(columnDefinition = "DECIMAL(10,2)")
 	private double subTotal;
 	
+	//Cria ingressos
+	public void geraIngressos(Evento evento) {
+		for (int i = 0; i >= this.quantidade; i++) {
+			Ingresso ingresso = new Ingresso();
+			ingresso.setEvento(evento);
+			this.ingressos.add(ingresso);
+		}
+	}
+	
+	public List<Ingresso> getIngressos() {
+		return ingressos;
+	}
+	public void setIngressos(List<Ingresso> ingressos) {
+		this.ingressos = ingressos;
+	}
 	public int getId() {
 		return id;
 	}
@@ -35,12 +55,7 @@ public class ItemPedido {
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
 	}
-	public Ingresso getIngresso() {
-		return ingresso;
-	}
-	public void setIngresso(Ingresso ingresso) {
-		this.ingresso = ingresso;
-	}
+	
 	public int getQuantidade() {
 		return quantidade;
 	}
@@ -56,6 +71,6 @@ public class ItemPedido {
 		calculaSubTotal();
 	}
 	public void calculaSubTotal() {
-		this.subTotal = (this.ingresso.getEvento().getPreco() * this.quantidade);
+		this.subTotal = (this.ingressos.get(0).getEvento().getPreco() * this.quantidade);
 	}
 }
