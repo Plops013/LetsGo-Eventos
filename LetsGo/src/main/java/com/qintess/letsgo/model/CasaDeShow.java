@@ -1,11 +1,17 @@
 package com.qintess.letsgo.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class CasaDeShow {
@@ -23,6 +29,8 @@ public class CasaDeShow {
 	private int capacidade;
 	@ManyToOne(optional = false)
 	private Usuario usuario;
+	@OneToMany(mappedBy = "casaDeShow", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Evento> eventos = new ArrayList<>();
 	
 	public int getId() {
 		return id;

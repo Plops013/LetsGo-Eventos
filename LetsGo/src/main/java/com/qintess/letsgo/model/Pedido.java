@@ -17,7 +17,7 @@ public class Pedido {
 	private int id;
 	@ManyToOne(optional = false)
 	private Usuario usuario;
-	@Column(columnDefinition = "DECILMAL(10,2)")
+	@Column(columnDefinition = "DECIMAL(10,2)")
 	private Double total;
 	@Column(nullable = false)
 	private LocalDateTime dataCompra;

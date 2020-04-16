@@ -26,7 +26,7 @@ public class Usuario {
 	private String telefone;
 	@Column(nullable = false, length = 100)
 	private String senha;
-	@ManyToMany
+	@ManyToMany(mappedBy = "usuarios")
 	private List<Papel> papeis = new ArrayList<>();
 	
 	public void addPapel(Papel papel) {
