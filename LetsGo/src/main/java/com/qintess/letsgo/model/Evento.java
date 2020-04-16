@@ -24,9 +24,17 @@ public class Evento {
 	private LocalDateTime dataFim;
 	@Column(nullable = false)
 	private int quantidadeIngressos;
+	@Column(nullable = false, columnDefinition = "DECIMAL(10,2)")
+	private double preco;
 	@ManyToOne
 	private CasaDeShow casaDeShow;
 	
+	public double getPreco() {
+		return preco;
+	}
+	public void setPreco(double preco) {
+		this.preco = preco;
+	}
 	public int getId() {
 		return id;
 	}

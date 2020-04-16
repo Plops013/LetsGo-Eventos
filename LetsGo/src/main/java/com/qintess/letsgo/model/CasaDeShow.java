@@ -32,6 +32,12 @@ public class CasaDeShow {
 	@OneToMany(mappedBy = "casaDeShow", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Evento> eventos = new ArrayList<>();
 	
+	public List<Evento> getEventos() {
+		return eventos;
+	}
+	public void setEventos(List<Evento> eventos) {
+		this.eventos = eventos;
+	}
 	public int getId() {
 		return id;
 	}

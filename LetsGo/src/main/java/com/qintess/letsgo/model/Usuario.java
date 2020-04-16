@@ -3,12 +3,14 @@ package com.qintess.letsgo.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Usuario {
@@ -28,7 +30,25 @@ public class Usuario {
 	private String senha;
 	@ManyToMany(mappedBy = "usuarios")
 	private List<Papel> papeis = new ArrayList<>();
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.MERGE)
+	private List<CasaDeShow> casasDeShow = new ArrayList<CasaDeShow>();
 	
+	public List<Papel> getPapeis() {
+		return papeis;
+	}
+
+	public void setPapeis(List<Papel> papeis) {
+		this.papeis = papeis;
+	}
+
+	public List<CasaDeShow> getCasasDeShow() {
+		return casasDeShow;
+	}
+
+	public void setCasasDeShow(List<CasaDeShow> casasDeShow) {
+		this.casasDeShow = casasDeShow;
+	}
+
 	public void addPapel(Papel papel) {
 		papeis.add(papel);
 	}
