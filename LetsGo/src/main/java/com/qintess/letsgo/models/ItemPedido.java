@@ -1,4 +1,4 @@
-package com.qintess.letsgo.model;
+package com.qintess.letsgo.models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class ItemPedido {
 	private int id;
 	@ManyToOne(optional = false)
 	private Pedido pedido;
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "itemPedido")
 	private List<Ingresso> ingressos = new ArrayList<>();
 	@Column(nullable = false)
 	private int quantidade;

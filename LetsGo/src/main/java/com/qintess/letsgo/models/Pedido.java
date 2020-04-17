@@ -1,4 +1,4 @@
-package com.qintess.letsgo.model;
+package com.qintess.letsgo.models;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

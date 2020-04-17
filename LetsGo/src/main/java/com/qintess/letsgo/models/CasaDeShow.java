@@ -1,4 +1,4 @@
-package com.qintess.letsgo.model;
+package com.qintess.letsgo.models;
 
 import java.util.ArrayList;
 import java.util.List;

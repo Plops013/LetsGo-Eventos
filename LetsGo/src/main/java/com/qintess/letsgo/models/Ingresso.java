@@ -1,4 +1,4 @@
-package com.qintess.letsgo.model;
+package com.qintess.letsgo.models;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +14,9 @@ public class Ingresso {
 	private int id;
 	@ManyToOne(optional = false)
 	private Evento evento;
+	@ManyToOne
+	private ItemPedido itemPedido;
+	
 	public int getId() {
 		return id;
 	}

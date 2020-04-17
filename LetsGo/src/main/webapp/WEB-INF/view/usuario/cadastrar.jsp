@@ -23,7 +23,15 @@
 		<div class="card mb-4">
 			<div class="card-body bg-light">
 				<h1 class="text-center">Cadastro De Usuario</h1>
-				<form:form cssClass="" action="/salva" modelAttribute="usuario">
+				<c:if test="${not empty mensagemErro}">
+					<div id="divMensagem" class="alert alert-danger" role="alert">
+						${mensagemErro}</div>
+				</c:if>
+				<c:if test="${not empty mensagemSucesso}">
+					<div id="divMensagem" class="alert alert-success" role="alert">
+						${mensagemSucesso}</div>
+				</c:if>
+				<form:form cssClass="" action="salva" modelAttribute="usuario">
 					<form:hidden path="id" />
 					<div class="form-row">
 						<div class="form-group col-md-6">
@@ -57,23 +65,25 @@
 					<div class="form group mx-auto text-center">
 						<div class="custom-control custom-radio custom-control-inline">
 							<input type="radio" id="customRadioInline1"
-								name="customRadioInline1" class="custom-control-input">
+								name="radioPapel" value="cliente" checked class="custom-control-input">
 							<label class="custom-control-label" for="customRadioInline1">Quero
 								ir em Eventos</label>
 						</div>
 						<div class="custom-control custom-radio custom-control-inline">
 							<input type="radio" id="customRadioInline2"
-								name="customRadioInline1" class="custom-control-input">
+								name="radioPapel" value="organizador" class="custom-control-input">
 							<label class="custom-control-label" for="customRadioInline2">Eu
 								organizo Eventos</label>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="custom-control custom-checkbox text-center">
-							<input class="form-check-input custom-control-input" id="customCheck1" type="checkbox" id="gridCheck">
-							<label for="customCheck1" class="custom-control-label" for="gridCheck"> Concordo
-								com <a href="#modalTermos" data-toggle="modal"
-								data-target="#modalTermos">termos de uso.</a>
+							<input class="form-check-input custom-control-input"
+								id="checkBoxTermos" name="checkBoxTermos" type="checkbox">
+							<label for="checkBoxTermos" class="custom-control-label"
+								for="gridCheck"> Concordo com <a href="#modalTermos"
+								data-toggle="modal" data-target="#modalTermos">termos de
+									uso.</a>
 							</label>
 						</div>
 					</div>
@@ -86,9 +96,9 @@
 			</div>
 		</div>
 	</div>
-		<div id="modalTermos" class="modal fade" tabindex="-1" role="dialog"
+	<div id="modalTermos" class="modal fade" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
+		<div class="modal-dialog modal-dialog-scrollable">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h3>Termos de Uso</h3>

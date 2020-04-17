@@ -1,5 +1,6 @@
-package com.qintess.letsgo.model;
+package com.qintess.letsgo.models;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,8 +10,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Usuario {
@@ -23,22 +26,26 @@ public class Usuario {
 	@Column(nullable = false, length = 70)
 	private String sobrenome;
 	@Column(nullable = false, length = 100, unique = true)
+	@NotNull
+	@Email
 	private String email;
 	@Column(nullable = false, length = 15)
 	private String telefone;
 	@Column(nullable = false, length = 100)
 	private String senha;
-	@ManyToMany(mappedBy = "usuarios")
-	private List<Papel> papeis = new ArrayList<>();
+	@Column
+	private LocalDate dataNascimento;
+	@ManyToOne
+	private Papel papel;
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.MERGE)
 	private List<CasaDeShow> casasDeShow = new ArrayList<CasaDeShow>();
 	
-	public List<Papel> getPapeis() {
-		return papeis;
+	public Papel getPapel() {
+		return papel;
 	}
 
-	public void setPapeis(List<Papel> papeis) {
-		this.papeis = papeis;
+	public void setPapel(Papel papel) {
+		this.papel = papel;
 	}
 
 	public List<CasaDeShow> getCasasDeShow() {
@@ -47,14 +54,6 @@ public class Usuario {
 
 	public void setCasasDeShow(List<CasaDeShow> casasDeShow) {
 		this.casasDeShow = casasDeShow;
-	}
-
-	public void addPapel(Papel papel) {
-		papeis.add(papel);
-	}
-	
-	public void removePapel(Papel papel) {
-		papeis.remove(papel);
 	}
 	
 	public int getId() {
