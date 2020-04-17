@@ -27,34 +27,59 @@
 					<div id="divMensagem" class="alert alert-danger" role="alert">
 						${mensagemErro}</div>
 				</c:if>
+				<c:if test="${not empty fields}">
+					<c:forEach var="fields.detailedErrors" items="erro"></c:forEach>
+					<div id="divMensagem" class="alert alert-danger" role="alert">
+						${erro.message}</div>
+				</c:if>
 				<c:if test="${not empty mensagemSucesso}">
 					<div id="divMensagem" class="alert alert-success" role="alert">
 						${mensagemSucesso}</div>
 				</c:if>
-				<form:form cssClass="" action="salva" modelAttribute="usuario">
+				<form:form action="salva" modelAttribute="usuario">
 					<form:hidden path="id" />
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label for="nome">Nome</label>
-							<form:input cssClass="form-control" path="nome" />
+							<form:input cssClass="form-control" path="nome"
+								cssErrorClass="form-control is-invalid" />
+							<div class="invalid-feedback">
+								<form:errors path="nome" cssClass="error" />
+							</div>
 						</div>
 						<div class="form-group col-md-6">
 							<label for="sobrenome">Sobrenome</label>
-							<form:input cssClass="form-control" path="sobrenome" />
+							<form:input cssClass="form-control" path="sobrenome"
+								cssErrorClass="form-control is-invalid" />
+							<div class="invalid-feedback">
+								<form:errors path="sobrenome" cssClass="error" />
+							</div>
 						</div>
 					</div>
 					<div class="form-group">
 						<label for="sobrenome">Email</label>
-						<form:input cssClass="form-control" path="email" />
+						<form:input type="email" cssClass="form-control" path="email"
+							cssErrorClass="form-control is-invalid" />
+						<div class="invalid-feedback">
+							<form:errors path="email" cssClass="error" />
+						</div>
 					</div>
 					<div class="form-group">
 						<label for="sobrenome">Telefone</label>
-						<form:input cssClass="form-control col-md-6" path="telefone" />
+						<form:input cssClass="form-control col-md-6" path="telefone"
+							cssErrorClass="form-control is-invalid" />
+						<div class="invalid-feedback">
+							<form:errors path="telefone" cssClass="error" />
+						</div>
 					</div>
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label for="senha">Senha</label>
-							<form:input cssClass="form-control" path="senha" type="password" />
+							<form:input cssClass="form-control" path="senha" type="password"
+								cssErrorClass="form-control is-invalid" />
+							<div class="invalid-feedback">
+								<form:errors path="senha" cssClass="error" />
+							</div>
 						</div>
 						<div class="form-group col-md-6">
 							<label for="confirmaSenha">Confirme sua Senha</label> <input
@@ -64,15 +89,15 @@
 					<p class="text-center">Escolha se você:</p>
 					<div class="form group mx-auto text-center">
 						<div class="custom-control custom-radio custom-control-inline">
-							<input type="radio" id="customRadioInline1"
-								name="radioPapel" value="cliente" checked class="custom-control-input">
-							<label class="custom-control-label" for="customRadioInline1">Quero
+							<input type="radio" id="customRadioInline1" name="radioPapel"
+								value="cliente" checked class="custom-control-input"> <label
+								class="custom-control-label" for="customRadioInline1">Quero
 								ir em Eventos</label>
 						</div>
 						<div class="custom-control custom-radio custom-control-inline">
-							<input type="radio" id="customRadioInline2"
-								name="radioPapel" value="organizador" class="custom-control-input">
-							<label class="custom-control-label" for="customRadioInline2">Eu
+							<input type="radio" id="customRadioInline2" name="radioPapel"
+								value="organizador" class="custom-control-input"> <label
+								class="custom-control-label" for="customRadioInline2">Eu
 								organizo Eventos</label>
 						</div>
 					</div>

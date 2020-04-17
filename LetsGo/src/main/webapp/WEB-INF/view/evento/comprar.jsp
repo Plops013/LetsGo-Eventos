@@ -42,11 +42,13 @@
 							readonly />
 					</div>
 					<div class="col-sm-6">
-						<h4>Quantidade:</h4>
-						<input class="form-control px-2" value="0" id="quantidade"
-							type="number" max="4" required />
-						<div class="invalid-feedback">Limite de 4 ingressos por
-							pessoa.</div>
+						<div class="form-group">
+							<h4>Quantidade:</h4>
+							<input class="form-control px-2" value="0" id="quantidade"
+								type="number" max="4" required />
+							<div class="invalid-feedback">Limite de 4 ingressos por
+								pessoa.</div>
+						</div>
 					</div>
 					<div class="col-sm-12">
 						<h3 class="text-center">Valor Total:</h3>
@@ -64,25 +66,30 @@
 		</div>
 	</div>
 	<script>
-		$("#quantidade").blur(function() {
-			if ($(this).val() > 4) {
-				document.getElementById("quantidade").classList.add("is-invalid");
-				$(this).val(4);
-				setTimeout(invalidTime(), 3000);
+		$("#quantidade").blur(
+				function() {
+					if ($(this).val() > 4) {
+						document.getElementById("quantidade").classList
+								.add("is-invalid");
+						$(this).val(4);
+						setTimeout(invalidTime(), 3000);
+					}
+				});
+		function invalidTime() {
+			return function() {
+				document.getElementById("quantidade").classList
+						.remove("is-invalid");
 			}
-		});
-		function invalidTime(){
-		    return function(){
-		    	document.getElementById("quantidade").classList.remove("is-invalid");
-		    }
 		}
-		$("#quantidade").mouseleave(function() {
-			if ($(this).val() > 4) {
-				document.getElementById("quantidade").classList.add("is-invalid");
-				$(this).val(4);
-				setTimeout(invalidTime(), 3000);
-			}
-		});
+		$("#quantidade").mouseleave(
+				function() {
+					if ($(this).val() > 4) {
+						document.getElementById("quantidade").classList
+								.add("is-invalid");
+						$(this).val(4);
+						setTimeout(invalidTime(), 3000);
+					}
+				});
 		$("#quantidade").mouseleave(
 				function() {
 					$("#total").text(

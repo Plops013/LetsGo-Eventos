@@ -45,7 +45,13 @@ public class UsuarioController {
 				model.addAttribute("mensagemErro", "Você deve concordar com os termos de uso");
 				return cadastrar(usuario, model);
 			} 
+			if(usuario.getEmail() == "") {
+				model.addAttribute("mensagemErro", "Seu email não pode ser nulo");
+				return cadastrar(usuario, model);
+			}
 			if(result.hasErrors()) {
+				System.out.println(result.getErrorCount());
+				System.out.println(result);
 				return cadastrar(usuario, model);
 			}
 			//Verifica o Papel Do Usuario
