@@ -9,10 +9,10 @@
 <head>
 <spring:url value="/usuario/cadastrar" var="cadastrar"></spring:url>
 <spring:url value="/" var="home"></spring:url>
-<link href="css/bootstrap.min.css" rel="stylesheet" />
-<link href="css/style.css" rel="stylesheet" />
-<script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="bootstrap.min.js"></script>
+<link href="/css/bootstrap.min.css" rel="stylesheet" />
+<link href="/css/style.css" rel="stylesheet" />
+<script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
 <meta charset="UTF-8">
 </head>
 <body>

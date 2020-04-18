@@ -16,15 +16,10 @@ public class IndexController {
 		return "/fragments/nav";
 	}
 	
-	@RequestMapping("/login")
-	public String login() {
-		return "/usuario/login";
-	}
-	
 	//Aqui fica o texto dos termos de uso.
 	@RequestMapping("/usuario/termos")
 	public String termos() {
-		return "usuario/termos_de_uso";
+		return "Usuario/termos_de_uso";
 	}
 	
 }

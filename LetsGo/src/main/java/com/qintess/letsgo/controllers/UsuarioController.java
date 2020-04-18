@@ -28,15 +28,20 @@ public class UsuarioController {
 
 	@RequestMapping("/cadastrar")
 	public ModelAndView cadastrar(Usuario usuario, Model model) {
-		ModelAndView mv = new ModelAndView("/usuario/cadastrar");
+		ModelAndView mv = new ModelAndView("/Usuario/cadastrar");
 		return mv;
 	}
 
 	@RequestMapping("/perfil")
 	private ModelAndView meuPerfil(Model model, Usuario usuario) {
 		usuario.setPapel(papelService.buscarPorNome("cliente"));
-		ModelAndView mv = new ModelAndView("/usuario/meu_perfil");
+		ModelAndView mv = new ModelAndView("/Usuario/meu_perfil");
 		return mv;
+	}
+	
+	@RequestMapping("/login")
+	public String login() {
+		return "/Usuario/login";
 	}
 	
 	@RequestMapping("/salva")

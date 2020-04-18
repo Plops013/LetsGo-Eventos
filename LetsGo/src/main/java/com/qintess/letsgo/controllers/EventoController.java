@@ -9,12 +9,12 @@ public class EventoController {
 
 	@RequestMapping("/")
 	public String show() {
-		return "/evento/show";
+		return "/Evento/show";
 	}
 	
 	@RequestMapping("/comprar")
 	public String comprar() {
-		return "/evento/comprar";
+		return "/Evento/comprar";
 	}
 	
 }
