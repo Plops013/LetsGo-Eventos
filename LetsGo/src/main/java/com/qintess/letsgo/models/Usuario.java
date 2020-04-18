@@ -13,8 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
@@ -44,8 +42,26 @@ public class Usuario {
 	private LocalDate dataNascimento;
 	@ManyToOne
 	private Papel papel;
-	@OneToMany(mappedBy = "usuario", cascade = CascadeType.MERGE)
+	@OneToMany(mappedBy = "usuario", cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
 	private List<CasaDeShow> casasDeShow = new ArrayList<CasaDeShow>();
+	
+	public void addCasaDeShow(CasaDeShow casaDeShow) throws Exception {
+		if(papel.getNome() == "organizador") {
+		casasDeShow.add(casaDeShow);
+		casaDeShow.setUsuario(this);
+		} else {
+			throw new Exception("Apenas organizadores podem criar casas de show");
+		}
+	}
+	
+	public void removeCasaDeShow(CasaDeShow casaDeShow) throws Exception {
+		if(papel.getNome() == "organizador" && casaDeShow.getEventos().size() == 0) {
+		casasDeShow.remove(casaDeShow);
+		casaDeShow.setUsuario(this);
+		} else {
+			throw new Exception("Apenas organizadores podem criar casas de show");
+		}
+	}
 	
 	public Papel getPapel() {
 		return papel;

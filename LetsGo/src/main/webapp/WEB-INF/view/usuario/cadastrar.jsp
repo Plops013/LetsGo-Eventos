@@ -27,11 +27,6 @@
 					<div id="divMensagem" class="alert alert-danger" role="alert">
 						${mensagemErro}</div>
 				</c:if>
-				<c:if test="${not empty fields}">
-					<c:forEach var="fields.detailedErrors" items="erro"></c:forEach>
-					<div id="divMensagem" class="alert alert-danger" role="alert">
-						${erro.message}</div>
-				</c:if>
 				<c:if test="${not empty mensagemSucesso}">
 					<div id="divMensagem" class="alert alert-success" role="alert">
 						${mensagemSucesso}</div>

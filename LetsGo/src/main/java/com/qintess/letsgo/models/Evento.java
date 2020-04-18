@@ -24,11 +24,19 @@ public class Evento {
 	private LocalDateTime dataFim;
 	@Column(nullable = false)
 	private int quantidadeIngressos;
+	@Column(nullable = false)
+	private int quantidadeIngressosInicial;	
 	@Column(nullable = false, columnDefinition = "DECIMAL(10,2)")
 	private double preco;
 	@ManyToOne
 	private CasaDeShow casaDeShow;
 	
+	public int getQuantidadeIngressosInicial() {
+		return quantidadeIngressosInicial;
+	}
+	public void setQuantidadeIngressosInicial(int quantidadeIngressosInicial) {
+		this.quantidadeIngressosInicial = quantidadeIngressosInicial;
+	}
 	public double getPreco() {
 		return preco;
 	}

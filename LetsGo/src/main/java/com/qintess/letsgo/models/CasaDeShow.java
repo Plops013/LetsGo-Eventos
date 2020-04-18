@@ -32,6 +32,18 @@ public class CasaDeShow {
 	@OneToMany(mappedBy = "casaDeShow", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Evento> eventos = new ArrayList<>();
 	
+	public void addEvento(Evento evento) {
+		eventos.add(evento);
+	}
+	
+	public void removeEvento(Evento evento) throws Exception {
+		if(evento.getQuantidadeIngressos() == evento.getQuantidadeIngressosInicial()) {
+			eventos.remove(evento);
+		} else {
+			throw new Exception("Não é permitido excluir evento que tenham ingressos vendidos");
+		}
+	}
+	
 	public List<Evento> getEventos() {
 		return eventos;
 	}

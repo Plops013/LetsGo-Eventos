@@ -32,6 +32,13 @@ public class UsuarioController {
 		return mv;
 	}
 
+	@RequestMapping("/perfil")
+	private ModelAndView meuPerfil(Model model, Usuario usuario) {
+		usuario.setPapel(papelService.buscarPorNome("cliente"));
+		ModelAndView mv = new ModelAndView("/usuario/meu_perfil");
+		return mv;
+	}
+	
 	@RequestMapping("/salva")
 	public ModelAndView salva(Model model, @Valid Usuario usuario, 
 			BindingResult result, RedirectAttributes redirectAtt, HttpServletRequest req,
