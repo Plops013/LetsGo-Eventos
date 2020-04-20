@@ -31,7 +31,7 @@ public class Usuario {
 	private String sobrenome;
 	@NotEmpty(message = "Seu email nao pode ser nulo") @Email
 	@Column(nullable = false, length = 100, unique = true)
-	private String email;
+	private String email = "";
 	@Column(nullable = false, length = 15)
 	private String telefone;
 	@NotEmpty(message = "Campo senha é obrigatório")

@@ -33,7 +33,9 @@
 							${mensagemSucesso}</div>
 					</c:if>
 					<form:form action="alterar" modelAttribute="usuario">
-					<h4 class="text-center"><kbd class="text-capitalize">${usuario.papel.nome}</kbd></h4>
+						<h4 class="text-center">
+							<kbd class="text-capitalize">${usuario.papel.nome}</kbd>
+						</h4>
 						<form:hidden path="id" />
 						<div class="form-row">
 							<div class="form-group col-md-6">
@@ -53,22 +55,24 @@
 								</div>
 							</div>
 						</div>
-						<fieldset disabled>
-							<div class="form-group">
+						<div class="form-row">
+							<div class="form-group col-md-6">
 								<label for="sobrenome">Email</label>
-								<form:input type="email" cssClass="form-control" path="email"
-									cssErrorClass="form-control is-invalid" />
+								<fieldset disabled>
+									<form:input type="email" cssClass="form-control-plaintext"
+										path="email" cssErrorClass="form-control is-invalid" />
+								</fieldset>
 								<div class="invalid-feedback">
 									<form:errors path="email" cssClass="error" />
 								</div>
 							</div>
-						</fieldset>
-						<div class="form-group">
-							<label for="sobrenome">Telefone</label>
-							<form:input cssClass="form-control col-md-6" path="telefone"
-								cssErrorClass="form-control is-invalid" />
-							<div class="invalid-feedback">
-								<form:errors path="telefone" cssClass="error" />
+							<div class="form-group col-md-6">
+								<label for="sobrenome">Telefone</label>
+								<form:input cssClass="form-control" path="telefone"
+									cssErrorClass="form-control is-invalid" />
+								<div class="invalid-feedback">
+									<form:errors path="telefone" cssClass="error" />
+								</div>
 							</div>
 						</div>
 						<div class="form-row">
@@ -86,8 +90,8 @@
 							</div>
 						</div>
 						<div class="mx-auto mt-3 text-center">
-							<button type="submit" class="btn btn-success">Alterar
-								Perfil</button>
+							<button type="submit" class="btn btn-success">Salvar
+								Alterações</button>
 							<a href="${home}" class="btn btn-primary">Retornar ao inicio</a>
 						</div>
 					</form:form>

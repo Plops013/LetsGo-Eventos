@@ -1,6 +1,8 @@
 package com.qintess.letsgo.models;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
+import java.util.Base64;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class Evento {
@@ -30,6 +33,22 @@ public class Evento {
 	private double preco;
 	@ManyToOne
 	private CasaDeShow casaDeShow;
+	@Transient
+	private String imagemEncoded;
+	private byte[] imagemEvento;
+	
+	public String getImagemEncoded() {
+		try {
+			String base64Encoded;
+			byte[] encodeBase64 = Base64.getEncoder().encode(this.imagemEvento);
+			base64Encoded = new String(encodeBase64, "UTF-8");
+			this.imagemEncoded = base64Encoded;
+			return imagemEncoded;
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
 	public int getQuantidadeIngressosInicial() {
 		return quantidadeIngressosInicial;
