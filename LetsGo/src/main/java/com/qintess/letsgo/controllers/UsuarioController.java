@@ -47,14 +47,13 @@ public class UsuarioController {
 	@RequestMapping("/salva")
 	public ModelAndView salva(Model model, @Valid Usuario usuario, 
 			BindingResult result, RedirectAttributes redirectAtt, HttpServletRequest req,
-			@RequestParam(value = "checkBoxTermos", required = false) boolean checkBoxValue,
+			@RequestParam(value = "checkBoxTermos", required = false) boolean checkBoxTermos,
 			@RequestParam(value = "radioPapel") String nomePapel){
 
 		ModelAndView mv = new ModelAndView("redirect:/usuario/cadastrar");
 		try {
-			//Verifica Se o Usuario Concorda com os Termos
-			if(!checkBoxValue) {
-				model.addAttribute("mensagemErro", "Você deve concordar com os termos de uso");
+			if(!checkBoxTermos) {
+				model.addAttribute("mensagemErro", "Você deve concordar com os termos de uso!");
 				return cadastrar(usuario, model);
 			} 
 			if(result.hasErrors()) {
@@ -67,11 +66,11 @@ public class UsuarioController {
 				model.addAttribute("mensagemErro", "Email ja cadastrado!");
 				return cadastrar(usuario, model);
 			} 
-			//Verifica o Papel Do Usuario
+
 			Papel papelUsuario = papelService.buscarPorNome(nomePapel);
 			usuario.setPapel(papelUsuario);
 			usuarioService.insere(usuario);
-			//Captura qualquer possivel erro
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

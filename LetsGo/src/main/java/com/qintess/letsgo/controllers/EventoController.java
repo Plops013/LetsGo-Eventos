@@ -14,16 +14,16 @@ public class EventoController {
 	public String show() {
 		return "/Evento/show";
 	}
-	
+
 	@RequestMapping("/comprar")
 	public String comprar() {
 		return "/Evento/comprar";
 	}
-	
+
 	@RequestMapping("/cadastrar")
 	public String cadastrar(Model model) {
 		model.addAttribute("evento", new Evento());
 		return "/Evento/cadastrar";
 	}
-	
+
 }
