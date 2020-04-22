@@ -7,7 +7,9 @@
 <html>
 <head>
 <spring:url value="/" var="home"></spring:url>
-<spring:url value="salva" var="salva"></spring:url>
+<spring:url value="/CasaDeShow/salvar" var="salvar"></spring:url>
+<spring:url value="/CasaDeShow/deletar/" var="deletar"></spring:url>
+<spring:url value="/CasaDeShow/alterar/" var="alterar"></spring:url>
 <link href="/css/bootstrap.min.css" rel="stylesheet" />
 <link href="/css/style.css" rel="stylesheet" />
 <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
@@ -25,13 +27,27 @@
       <div class="card-body bg-light">
         <h1 class="text-center" id="evento">Cadastro de Casa de
           Show</h1>
-        <form:form modelAttribute="casaDeShow" action="/salva">
+        <form:form modelAttribute="casaDeShow" action="${salvar}"
+          enctype="multipart/form-data" method="POST">
+          <c:if test="${not empty mensagemErro}">
+            <div id="divMensagem" class="alert alert-danger"
+              role="alert">${mensagemErro}</div>
+          </c:if>
+          <c:if test="${not empty mensagemSucesso}">
+            <div id="divMensagem" class="alert alert-success"
+              role="alert">${mensagemSucesso}</div>
+          </c:if>
           <form:hidden path="id" />
+          <form:hidden path="usuario" />
+          <form:hidden path="imagemCasaDeShow" />
           <div class="form-row">
             <div class="form-group col-lg-12">
               <label>Nome</label>
               <form:input cssClass="form-control"
-                cssErrorClass="is-invalid" path="nome" />
+                cssErrorClass="form-control is-invalid" path="nome" />
+              <div class="invalid-feedback">
+                <form:errors path="nome" cssClass="error" />
+              </div>
             </div>
           </div>
           <div class="form-row">
@@ -39,45 +55,70 @@
               <label>Capacidade <span class="small text-primary">(
                   capacidade de pessoas )</span></label>
               <form:input cssClass="form-control col-sm-12"
+                cssErrorClass="form-control is-invalid"
                 path="capacidade" />
+              <div class="invalid-feedback">
+                <form:errors path="capacidade" cssClass="error" />
+              </div>
             </div>
             <div class="form-group col-lg-6">
               <label>CEP <span class="small text-primary">(
                   sistema de prenchimento automatico, digite apenas o
                   cep e o numero)</span></label> <input class="form-control col-sm-4"
-                type="text" id="cep" />
+                type="text" id="cep" name="cep"
+                value="${casaDeShow.cep}" />
             </div>
           </div>
           <div class="form-row">
             <div class="form-group col-lg-4">
-              <fieldset disabled>
-                <label>Rua</label>
-                <form:input cssClass="form-control"
-                  cssErrorClass="is-invalid" path="endereco" />
-              </fieldset>
+              <label>Rua</label>
+              <form:input cssClass="form-control"
+                cssErrorClass="form-control is-invalid" path="endereco"
+                readonly="true" />
+              <div class="invalid-feedback">
+                <form:errors path="endereco" cssClass="error" />
+              </div>
             </div>
             <div class="form-group col-lg-2">
-              <label>Numero</label> <input class="form-control"
-                type="text" id="numero" />
+              <label>Numero</label>
+              <form:input path="numero" cssClass="form-control"
+                cssErrorClass="form-control is-invalid" />
+              <div class="invalid-feedback">
+                <form:errors path="numero" cssClass="error" />
+              </div>
             </div>
             <div class="form-group col-lg-3">
-              <fieldset disabled>
-                <label>Cidade</label>
-                <form:input cssClass="form-control"
-                  cssErrorClass="is-invalid" path="cidade" />
-              </fieldset>
+              <label>Cidade</label>
+              <form:input cssClass="form-control"
+                cssErrorClass="form-control is-invalid" path="cidade"
+                readonly="true" />
+              <div class="invalid-feedback">
+                <form:errors path="cidade" cssClass="error" />
+              </div>
             </div>
             <div class="form-group col-lg-3">
-              <fieldset disabled>
-                <label>Estado</label>
-                <form:input cssClass="form-control"
-                  cssErrorClass="is-invalid" path="estado" />
-              </fieldset>
+              <label>Estado</label>
+              <form:input cssClass="form-control"
+                cssErrorClass="form-control is-invalid" path="estado"
+                readonly="true" />
+              <div class="invalid-feedback">
+                <form:errors path="estado" cssClass="error" />
+              </div>
             </div>
           </div>
+          <div class="form-row mb-0">
+            <label>Foto:</label>
+            <div class="form-group col-lg-12">
+              <input type="file" name="imagem" class="form-control"
+                id="customFile"> <label
+                class="custom-file-label" for="customFile">Escolha
+                seu arquivo...</label>
+            </div>
+          </div>
+
           <div class="form-row  justify-content-md-center">
             <div class="col-lg-6">
-              <button class="btn btn-success btn-block" type="submit">Cadastrar</button>
+              <button class="btn btn-success btn-block" type="submit">${casaDeShow.id == 0 ? 'Cadastrar' : 'Alterar'}</button>
             </div>
           </div>
         </form:form>
@@ -85,31 +126,42 @@
     </div>
     <div class="card">
       <div class="card-body">
+       <c:if test="${not empty mensagemExclusão}">
+            <div id="divMensagem" class="alert alert-success"
+              role="alert">${mensagemExclusão}</div>
+          </c:if>
         <table class="table table-hover table-sm">
           <thead class="thead-dark">
             <tr>
-              <th scope="col">ID</th>
               <th scope="col">Nome</th>
               <th scope="col">Capacidade</th>
+               <th scope="col">CEP</th>
               <th scope="col">Endereco</th>
               <th scope="col">Numero</th>
               <th scope="col">Cidade</th>
               <th scope="col">Estado</th>
+              <th scope="col">Foto</th>
               <th class="text-center" scope="col" colspan="2">Alterações</th>
             </tr>
           </thead>
           <tbody>
+          <c:forEach  var="casaDeShowItem" items="${casasDeShow}">
             <tr>
-              <th scope="row">1</th>
-              <td>Boulevard</td>
-              <td>5000</td>
-              <td>Rua Catarina Maria</td>
-              <td>33</td>
-              <td>Santo André</td>
-              <td>São Paulo</td>
-              <td class="pr-0"><a class="btn btn-warning mr-0">Alterar</a></td>
-              <td class="pl-0"><a class="btn btn-danger ml-0">Deletar</a></td>
+              <td>${casaDeShowItem.nome}</td>
+              <td>${casaDeShowItem.capacidade}</td>
+              <td>${casaDeShowItem.cep}</td>
+              <td>${casaDeShowItem.endereco}</td>
+              <td>${casaDeShowItem.numero}</td>
+              <td>${casaDeShowItem.cidade}</td>
+              <td>${casaDeShowItem.estado}</td>
+              <td>
+              <img class="rounded h-auto mx-auto w-30 my-1" alt="" style="width: 30px; height: 30px"
+              src="data:image/jpge;base64,${casaDeShowItem.imagemEncoded}"/></td>
+              <td class="pr-0"><a class="py-0 btn btn-warning text-white" href="${alterar}${casaDeShowItem.id}" >Alterar</a></td>
+              <td class="pl-0"><a class="py-0 btn btn-danger" href="${deletar}${casaDeShowItem.id}"
+              onclick="return confirm('Deseja realmente deletar a Casa De Show: ${casaDeShowItem.nome} ?')">Deletar</a></td>
             </tr>
+           </c:forEach>
           </tbody>
         </table>
       </div>

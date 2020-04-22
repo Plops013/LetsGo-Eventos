@@ -6,6 +6,7 @@
 <html>
 <head>
 <spring:url value="/" var="home"></spring:url>
+<spring:url value="/Evento/" var="evento"></spring:url>
 <link href="/css/bootstrap.min.css" rel="stylesheet" />
 <link href="/css/style.css" rel="stylesheet" />
 <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
@@ -20,43 +21,48 @@
       <div class="card-body">
         <div class="row">
           <div class="col-lg-8 mb-3">
-            <h1 class="display-4 text-center">Boulevard</h1>
+            <h1 class="display-4 text-center">${casaDeShow.nome}</h1>
             <hr />
             <h4 class="font-weight-light mt-5 pt-3 text-center">Endereço:
-              Av. Pres. Kennedy, 3306 - Praia Grande - SP</h4>
+              ${casaDeShow.endereco}, ${casaDeShow.numero} - ${casaDeShow.cidade} - ${casaDeShow.estado}</h4>
             <h4 class="font-weight-light text-center">Capacidade:
               5000</h4>
           </div>
           <div class="col-lg-4 mb-3 mx-auto px-auto">
             <img alt="placeholder"
-              src="/assets/imgs/placeholder_img.png"
+              src="data:image/jpge;base64,${casaDeShow.imagemEncoded}"
               class="d-block mx-auto img-thumbnail"
               style="width: 300px; height: 300px" />
           </div>
         </div>
         <div class="row mb-3">
           <div class="col-lg-12">
-            <h1 class="font-weight-light">Eventos:</h1>
+            <h1 class="font-weight-light mb-0">Eventos:</h1>
           </div>
         </div>
+        <c:if test="${not empty casaDeShow.eventos}">
         <div class="row">
+        <c:forEach var="evento" items="${casaDeShow.eventos}"></c:forEach>
           <div class="col-md-2">
             <div class="card border-dark mb-3">
               <div class="card-body py-3">
                 <img alt="placeholder"
-                  src="/assets/imgs/placeholder_img.png"
+                  src="data:image/jpge;base64,${evento.imagemEncoded}"
                   class="d-block mx-auto img-thumbnail"
                   style="width: 100px; height: 50px" />
-                <p class="small pt-1 pb-0 my-0 text-center">Titulo
-                  do Evento</p>
+                <p class="small pt-1 pb-0 my-0 text-center">${evento.nome}</p>
                 <p class="my-0 text-center	">
-                  <a href="#" class="btn btn-success btn-sm py-0 px-1">ver
+                  <a href="${evento}${evento.id}" class="btn btn-success btn-sm py-0 px-1">ver
                     evento</a>
                 </p>
               </div>
             </div>
           </div>
         </div>
+        </c:if>
+        <c:if test="${empty casaDeShow.eventos}">
+          <h5 class="text-danger font-weight-light mt-0">Essa casa de show não tem eventos disponiveis!</h5>
+        </c:if>
       </div>
     </div>
   </div>

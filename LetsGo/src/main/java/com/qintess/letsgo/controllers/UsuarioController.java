@@ -1,6 +1,5 @@
 package com.qintess.letsgo.controllers;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +45,7 @@ public class UsuarioController {
 
 	@RequestMapping("/salva")
 	public ModelAndView salva(Model model, @Valid Usuario usuario, 
-			BindingResult result, RedirectAttributes redirectAtt, HttpServletRequest req,
+			BindingResult result, RedirectAttributes redirectAtt,
 			@RequestParam(value = "checkBoxTermos", required = false) boolean checkBoxTermos,
 			@RequestParam(value = "radioPapel") String nomePapel){
 
