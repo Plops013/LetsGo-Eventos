@@ -6,7 +6,7 @@
 <html>
 <head>
 <spring:url value="/" var="home"></spring:url>
-<spring:url value="/Evento/" var="evento"></spring:url>
+<spring:url value="/evento/" var="evento"></spring:url>
 <link href="/css/bootstrap.min.css" rel="stylesheet" />
 <link href="/css/style.css" rel="stylesheet" />
 <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
@@ -25,8 +25,7 @@
             <hr />
             <h4 class="font-weight-light mt-5 pt-3 text-center">Endereço:
               ${casaDeShow.endereco}, ${casaDeShow.numero} - ${casaDeShow.cidade} - ${casaDeShow.estado}</h4>
-            <h4 class="font-weight-light text-center">Capacidade:
-              5000</h4>
+            <h4 class="font-weight-light text-center">Capacidade: ${casaDeShow.capacidade }</h4>
           </div>
           <div class="col-lg-4 mb-3 mx-auto px-auto">
             <img alt="placeholder"
@@ -42,22 +41,23 @@
         </div>
         <c:if test="${not empty casaDeShow.eventos}">
         <div class="row">
-        <c:forEach var="evento" items="${casaDeShow.eventos}"></c:forEach>
+        <c:forEach var="eventoItem" items="${casaDeShow.eventos}">
           <div class="col-md-2">
             <div class="card border-dark mb-3">
               <div class="card-body py-3">
                 <img alt="placeholder"
-                  src="data:image/jpge;base64,${evento.imagemEncoded}"
+                  src="data:image/jpge;base64,${eventoItem.imagemEncoded}"
                   class="d-block mx-auto img-thumbnail"
                   style="width: 100px; height: 50px" />
-                <p class="small pt-1 pb-0 my-0 text-center">${evento.nome}</p>
+                <p class="small pt-1 pb-0 my-0 text-center">${eventoItem.nome}</p>
                 <p class="my-0 text-center	">
-                  <a href="${evento}${evento.id}" class="btn btn-success btn-sm py-0 px-1">ver
+                  <a href="${evento}${eventoItem.id}" class="btn btn-success btn-sm py-0 px-1">ver
                     evento</a>
                 </p>
               </div>
             </div>
           </div>
+          </c:forEach>
         </div>
         </c:if>
         <c:if test="${empty casaDeShow.eventos}">

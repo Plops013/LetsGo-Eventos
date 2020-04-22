@@ -11,6 +11,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Evento {
@@ -19,23 +24,63 @@ public class Evento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@Column(nullable = false ,length = 70)
+	@NotEmpty(message = "Nome é obrigatório") @Length(max = 70, message = "O nome deve conter no maximo 70 caracteres")
 	private String nome;
 	@Column(nullable = false, columnDefinition = "TEXT")
+	@NotEmpty (message = "Descrição é obrigatório")
 	private String descricao;
-	@Column(nullable = false)
+	@NotNull(message = "Data Inicio é obrigatório")
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 	private LocalDateTime dataInicio;
+	@NotNull(message = "Data Fim é obrigatório")
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 	private LocalDateTime dataFim;
 	@Column(nullable = false)
 	private int quantidadeIngressos;
 	@Column(nullable = false)
+	@NotNull(message = "Quantidade de Ingressos é obrigatória")
 	private int quantidadeIngressosInicial;	
 	@Column(nullable = false, columnDefinition = "DECIMAL(10,2)")
+	@NotNull
 	private double preco;
 	@ManyToOne
 	private CasaDeShow casaDeShow;
 	@Transient
 	private String imagemEncoded;
+	@Transient 
+	private String dataString;
+	@Transient
+	private int IngressosVendidos;
 	private byte[] imagemEvento;
+	
+	public int getIngressosVendidos() {
+		return quantidadeIngressosInicial - quantidadeIngressos;
+	}
+	
+	public String getDataString() {
+		try {
+			String retorno = "";
+			retorno += dataInicio.getDayOfMonth()+"/";
+			retorno += dataInicio.getMonthValue()+"/";
+			retorno += dataInicio.getYear()+" ás ";
+			retorno += dataInicio.getHour()+":"+dataInicio.getMinute();
+			
+			if(dataInicio.getDayOfMonth() == dataFim.getDayOfMonth()
+			   && dataInicio.getMonth() == dataFim.getMonth()
+			   && dataInicio.getYear() == dataFim.getYear()) {
+				retorno+= " ~ " + dataFim.getHour() + ":" + dataFim.getMinute();
+			} else {
+				retorno+= " ~ " + dataFim.getDayOfMonth()+"/";
+				retorno += dataFim.getMonthValue()+"/";
+				retorno += dataFim.getYear()+" ás ";
+				retorno += dataFim.getHour()+":"+dataFim.getMinute();
+			}
+			return retorno;
+		} catch(Exception e) {
+			e.printStackTrace();
+			return "erro na conversão da data";
+		}
+	}
 	
 	public String getImagemEncoded() {
 		try {
@@ -49,7 +94,15 @@ public class Evento {
 			return null;
 		}
 	}
-	
+	public byte[] getImagemEvento() {
+		return imagemEvento;
+	}
+	public void setImagemEvento(byte[] imagemEvento) {
+		this.imagemEvento = imagemEvento;
+	}
+	public void setImagemEncoded(String imagemEncoded) {
+		this.imagemEncoded = imagemEncoded;
+	}
 	public int getQuantidadeIngressosInicial() {
 		return quantidadeIngressosInicial;
 	}

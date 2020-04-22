@@ -49,24 +49,27 @@ public class CasaDeShowController {
 	public ModelAndView salvar(Model model,
 							   @Valid CasaDeShow casaDeShow,
 							   BindingResult result,
-							   @RequestParam(required = false, value="imagem") MultipartFile imagem) {
+							   @RequestParam(required = true, value="imagem") MultipartFile imagem,
+							   RedirectAttributes redirectAttributes) {
 		ModelAndView mv = new ModelAndView("redirect:cadastrar");
 		try {
-			System.out.println(casaDeShow.getUsuario().getNome());
 			if(result.hasErrors()) {
 				return cadastrar(model, casaDeShow);
 			} 
 			if(imagem.getSize() > 0) {
-			casaDeShow.setImagemCasaDeShow(imagem.getBytes());
+				casaDeShow.setImagemCasaDeShow(imagem.getBytes());
+			} else if(casaDeShow.getId() == 0){
+				model.addAttribute("mensagemErro", "Imagem é obrigatório");
+				return cadastrar(model, casaDeShow);
 			}
 			if(casaDeShow.getId() == 0) {
 				//Substituir aqui após fazer funcionar o security
 				casaDeShow.setUsuario(usuarioService.buscaPorEmail("binhopecora@gmail.com"));
 				casaDeShowService.insere(casaDeShow);
-				model.addAttribute("mensagemSucesso", "Casa De Show Cadastrada Com Sucesso!");
+				redirectAttributes.addFlashAttribute("mensagemSucesso", "Casa De Show Cadastrada Com Sucesso!");
 			} else {
 				casaDeShowService.insere(casaDeShow);
-				model.addAttribute("mensagemSucesso", "Casa De Show Atualizada Com Sucesso");	
+				redirectAttributes.addFlashAttribute("mensagemSucesso", "Casa De Show Atualizada Com Sucesso");	
 			}
 			
 		} catch (IOException e) {
@@ -97,7 +100,7 @@ public class CasaDeShowController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		redirectAttributes.addFlashAttribute("mensagemExclusão", "Produto Excluido! ");
+		redirectAttributes.addFlashAttribute("mensagemExclusão", "Casa de show excluida! ");
 		return "redirect:/CasaDeShow/cadastrar";
 	}
 	

@@ -55,7 +55,7 @@ public class CasaDeShow {
 	private String imagemEncoded;
 	@ManyToOne(optional = false)
 	private Usuario usuario;
-	@OneToMany(mappedBy = "casaDeShow", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "casaDeShow", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private List<Evento> eventos = new ArrayList<>();
 	
 	public String getImagemEncoded() {
