@@ -17,10 +17,14 @@ public class CustomErrorController implements ErrorController {
       Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
       Exception exception = (Exception) request.getAttribute("javax.servlet.error.exception");
       model.addAttribute("erroCodigo", statusCode);
+      if(statusCode != null) {
       if (statusCode == 404) {
     	   model.addAttribute("erroMensagem", "Ops! Pagina não encontrada!");
       } else {
     	   model.addAttribute("erroMensagem", exception==null? "N/A": exception.getMessage());
+      }
+      } else {
+      model.addAttribute("erroMensagem", "Ops! essa pagina requer permisões na qual você não tem :( /n volte ao inicio!");
       }
       return mv;
   }

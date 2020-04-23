@@ -35,8 +35,8 @@ public class Usuario {
 	@Column(nullable = false, length = 15)
 	private String telefone;
 	@NotEmpty(message = "Campo senha é obrigatório")
-	@Length(min = 6, max = 16, message = "Sua senha deve conter entre 6 e 16 caracteres")
-	@Column(nullable = false, length = 100)
+	@Length(min = 6, message = "Sua senha deve conter entre 6 e 16 caracteres")
+	@Column(nullable = false, length = 160)
 	private String senha;
 	@Column
 	private LocalDate dataNascimento;

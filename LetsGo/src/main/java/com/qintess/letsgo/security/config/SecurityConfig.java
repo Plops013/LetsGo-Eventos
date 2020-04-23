@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	}
 	
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) throws Exception {    	
         web.ignoring().antMatchers("/css/**");
         web.ignoring().antMatchers("/js/**");
         web.ignoring().antMatchers("/assets/**");
@@ -56,19 +56,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.permitAll()
 			.antMatchers("/evento/cadastrar", "/evento/alterar", "/evento/deletar")
 			.hasRole("organizador")
+			.antMatchers("/evento/comprar")
+			.authenticated()
 			.antMatchers("/CasaDeShow/cadastrar", "/CasaDeShow/alterar/**" , "/CasaDeShow/deletar/**")
-			.hasRole("organizador")
+			.permitAll()
 			.antMatchers("/evento/**", "/CasaDeShow/**", "/error")
 			.permitAll()
 			.anyRequest()
 			.authenticated()
 			.and()
 	     .exceptionHandling()
-	     	.accessDeniedPage("/403")
+	     	.accessDeniedPage("/error")
 	        .and()
 		.formLogin()
 			.loginPage("/usuario/login")
 			.loginProcessingUrl("/loga")
+			.failureUrl("/usuario/login-error")
 			.permitAll()
 			.and()
 		.logout()

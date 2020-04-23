@@ -71,14 +71,19 @@
             <div class="form-group col-md-6">
               <label for="senha">Senha</label>
               <form:input cssClass="form-control" path="senha"
-                type="password" cssErrorClass="form-control is-invalid" />
+                type="password" maxlength="16" id="senhaInput"
+                cssErrorClass="form-control is-invalid" />
               <div class="invalid-feedback">
+                <span id="senhaErro"></span>
                 <form:errors path="senha" cssClass="error" />
               </div>
             </div>
             <div class="form-group col-md-6">
               <label for="confirmaSenha">Confirme sua Senha</label> <input
                 class="form-control" type="password" id="confirmaSenha" />
+               <div class="invalid-feedback">
+                <span>As senhas nao batem.</span>
+              </div>
             </div>
           </div>
           <p class="text-center">Escolha se você:</p>
@@ -112,7 +117,7 @@
             </div>
           </div>
           <div class="mx-auto text-center">
-            <button type="submit" class="btn btn-success">Cadastrar-se</button>
+            <button type="submit" id="submit" class="btn btn-success">Cadastrar-se</button>
             <button type="reset" class="btn btn-danger">Limpar
               Formulario</button>
           </div>
@@ -139,4 +144,67 @@
     </div>
   </div>
 </body>
+<script type="text/javascript">
+	var tamanhoMaxSenha = 16;
+	var tamanhoMinSenha = 6;
+
+	$("#confirmaSenha")
+		.blur(function(){
+			var senha = $("#senhaInput").val();
+			var confirmaSenha = $("#confirmaSenha").val();
+			
+			if(senha != confirmaSenha){
+				document.getElementById("confirmaSenha").classList
+				.add("is-invalid");
+				document.getElementById("submit").classList
+				.add("btn-secondary");
+				document.getElementById("submit").classList
+				.remove("btn-success");
+				$('#submit').prop('disabled', true);
+			} else {
+				document.getElementById("confirmaSenha").classList
+				.remove("is-invalid");
+				document.getElementById("submit").classList
+				.remove("btn-secondary");
+				document.getElementById("submit").classList
+				.add("btn-success");
+				$('#submit').prop('disabled', false);
+			}
+		});
+	
+	$("#senhaInput")
+			.blur(
+					function() {
+						var tamanhoInputSenha = $("#senhaInput").val().length;
+						console.log(tamanhoInputSenha);
+						console.log("teste");
+						if ((tamanhoInputSenha > 15)) {
+							document.getElementById("senhaInput").classList
+									.add("is-invalid");
+							$("#senhaErro")
+									.text("Atenção! sua senha chegou ao tamanho maximo de 16 caracteres");
+							setTimeout(invalidTime(), 3000);
+						} else if (tamanhoInputSenha < 6) {
+							document.getElementById("senhaInput").classList
+									.add("is-invalid");
+							$("#senhaErro")
+							.text("Sua senha deve ter no minimo 6 caracteres");
+
+						} else {
+							document.getElementById("senhaInput").classList
+									.remove("is-invalid");
+						}
+					});
+
+	$("#nome").blur(function() {
+
+	});
+	
+	function invalidTime() {
+		return function() {
+			document.getElementById("senhaInput").classList
+					.remove("is-invalid");
+		}
+	}
+</script>
 </html>

@@ -1,8 +1,16 @@
 package com.qintess.letsgo.controllers;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +32,8 @@ public class UsuarioController {
 	UsuarioService usuarioService;
 	@Autowired
 	PapelService papelService;
+	@Autowired
+	private AuthenticationManager authenticationManager;
 
 	@RequestMapping("/cadastrar")
 	public ModelAndView cadastrar(Usuario usuario, Model model) {
@@ -31,23 +41,53 @@ public class UsuarioController {
 		return mv;
 	}
 
+	@RequestMapping("/login")
+	public String login(Model model) {
+		return "/Usuario/login";
+	}
+	
+	@RequestMapping("/login-error")
+	public String loginError(Model model, @RequestParam(required = false, value = "username") String email) {
+		model.addAttribute("mensagemErro", "Usuario ou senha invalidos");
+		return login(model);
+	}
+	
 	@RequestMapping("/perfil")
-	private ModelAndView meuPerfil(Model model, Usuario usuario) {
-		usuario.setPapel(papelService.buscarPorNome("cliente"));
+	private ModelAndView perfil(Model model, Usuario usuario) {
+		usuario = usuarioService.buscaPorEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+		usuario.setSenha("");
+		model.addAttribute("usuario", usuario);
 		ModelAndView mv = new ModelAndView("/Usuario/meu_perfil");
 		return mv;
 	}
 
-	@RequestMapping("/login")
-	public String login() {
-		return "/Usuario/login";
+	@RequestMapping("/alterar")
+	public ModelAndView alterar(Model model, @Valid Usuario usuario, 
+			BindingResult result, RedirectAttributes redirectAtt){
+//		ModelAndView mv = new ModelAndView("redirect:/perfil");
+		if(result.hasErrors()) {
+			return perfil(model, usuario);
+		}
+		try {
+		PasswordEncoder passEncoder = new BCryptPasswordEncoder();
+		String hashedPass = passEncoder.encode(usuario.getSenha());
+		usuario.setSenha(hashedPass);
+	    usuarioService.insere(usuario);
+		} 
+	    catch (Exception e) {
+			model.addAttribute("mensagemErro", e.getMessage());
+			return perfil(model, usuario);
+		}
+		redirectAtt.addFlashAttribute("mensagemSucesso", "Usuario alterado com sucesso!");
+		return perfil(model, usuario);
 	}
-
+	
 	@RequestMapping("/salva")
 	public ModelAndView salva(Model model, @Valid Usuario usuario, 
 			BindingResult result, RedirectAttributes redirectAtt,
 			@RequestParam(value = "checkBoxTermos", required = false) boolean checkBoxTermos,
-			@RequestParam(value = "radioPapel") String nomePapel){
+			@RequestParam(value = "radioPapel") String nomePapel,
+			HttpServletRequest req){
 
 		ModelAndView mv = new ModelAndView("redirect:/usuario/cadastrar");
 		try {
@@ -68,12 +108,24 @@ public class UsuarioController {
 
 			Papel papelUsuario = papelService.buscarPorNome(nomePapel);
 			usuario.setPapel(papelUsuario);
-			usuarioService.insere(usuario);
+			String senhaOriginal = usuario.getSenha();
+			PasswordEncoder passEncoder = new BCryptPasswordEncoder();
+			String hashedPass = passEncoder.encode(usuario.getSenha());
+			usuario.setSenha(hashedPass);
+		    usuarioService.insere(usuario);
+			
+			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(usuario.getEmail(), senhaOriginal);
+			authToken.setDetails(new WebAuthenticationDetails(req));
+			Authentication authentication = authenticationManager.authenticate(authToken);
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+
+		    redirectAtt.addFlashAttribute("mensagemSucesso", "Usuario cadastrado com sucesso!");
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			 redirectAtt.addFlashAttribute("mensagemErro", e.getMessage());
+			 return mv;
 		}
-		redirectAtt.addFlashAttribute("mensagemSucesso", "Usuario cadastrado com sucesso!");
 		return mv;
 	}
 }

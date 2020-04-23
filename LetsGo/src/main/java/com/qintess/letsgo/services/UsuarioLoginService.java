@@ -25,8 +25,10 @@ public class UsuarioLoginService implements UserDetailsService {
 			if(usuario != null) {
 				builder = User.withUsername(username);
 				builder.password(usuario.getSenha());
+				System.out.println("senha:" + usuario.getSenha());
 				String papel = usuario.getPapel().getNome();
 				builder.roles(papel);
+				System.out.println("email do usuario no login service:" + username + usuario.getEmail());
 				}
 		} catch (Exception e) {
 			throw new UsernameNotFoundException("Usu�rio n�o encontrado!");

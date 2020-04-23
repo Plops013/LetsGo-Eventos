@@ -9,6 +9,7 @@
 <head>
 <spring:url value="/usuario/cadastrar" var="cadastrar"></spring:url>
 <spring:url value="/" var="home"></spring:url>
+<spring:url value="/loga" var="loga"></spring:url>
 <link href="/css/bootstrap.min.css" rel="stylesheet" />
 <link href="/css/style.css" rel="stylesheet" />
 <script type="text/javascript" src="/js/jquery-3.4.1.min.js"></script>
@@ -28,6 +29,10 @@
             <h1 class="text-center text-dark display-4">Login</h1>
             <form:form class="form" role="form" action="${loga}"
               modelAttribute="usuario">
+              <c:if test="${not empty mensagemErro}">
+                <div id="divMensagem" class="mt-5 alert alert-danger"
+                  role="alert">${mensagemErro}</div>
+              </c:if>
               <div class="form-group">
                 <input id="username" name="username" placeholder="Email"
                   class="form-control form-control-sm" type="text"

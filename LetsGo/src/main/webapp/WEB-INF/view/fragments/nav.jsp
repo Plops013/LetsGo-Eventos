@@ -2,10 +2,12 @@
   pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <spring:url value="/CasaDeShow/cadastrar" var="casasDeShow"></spring:url>
 <spring:url value="/evento/cadastrar" var="eventos"></spring:url>
 <spring:url value="/usuario/pefil" var="perfil"></spring:url>
 <spring:url value="/usuario/login" var="login"></spring:url>
+<spring:url value="/logout" var="logout"></spring:url>
 <spring:url value="/" var="home"></spring:url>
 <spring:url value="/usuario/perfil" var="perfil"></spring:url>
 <nav class="navbar navbar-expand-lg navbar-light bg-light"
@@ -22,27 +24,32 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
       </ul>
-      <c:if test="${not empty logado}">
+      <sec:authorize access="!isAuthenticated()">
         <ul class="navbar-nav my-2 my-lg-0">
           <li class="nav-item"><a class="nav-link text-primary"
             href="${login}">Login</a></li>
         </ul>
-      </c:if>
-      <c:if test="${empty logado}">
+      </sec:authorize>
+      <sec:authorize access="isAuthenticated()">
         <ul class="navbar-nav my-2 my-lg-0">
           <li class="nav-item dropdown"><a
             class="nav-link dropdown-toggle" href="" id="navbarDropdown"
             role="button" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false"> Fabio <img src="/assets/icons/user.svg"></a>
+            aria-expanded="false"> <sec:authentication property="principal.username"/> <img src="/assets/icons/user.svg"></a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="${casasDeShow}">Minhas Casas De Show</a> 
-              <a class="dropdown-item" href="${eventos}">Meus Eventos</a> 
-              <a class="dropdown-item" href="${perfil}">Editar Perfil</a>
+              <sec:authorize access="hasRole('organizador')">
+              <a class="dropdown-item" href="${casasDeShow}">Minhas casas de show</a> 
+              <a class="dropdown-item" href="${eventos}">Meus eventos</a> 
+              </sec:authorize>
+              <sec:authorize access="hasRole('cliente')">
+              <a class="dropdown-item" href="${perfil}">Meus eventos</a>
+              </sec:authorize>
+              <a class="dropdown-item" href="${perfil}">Editar perfil</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Sair</a>
+              <a class="dropdown-item" href="${logout}">Sair</a>
             </div></li>
         </ul>
-      </c:if>
+      </sec:authorize>
     </div>
   </div>
 </nav>
