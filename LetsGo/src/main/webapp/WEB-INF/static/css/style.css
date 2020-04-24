@@ -15,3 +15,13 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3f5efb",endCo
 .text-justify{
 	border-radius: 5px;
 }
+
+.bannerimage {
+  width: 100%;
+  box-shadow: 0px 1px 10px grey;
+  background-image: url(/assets/imgs/Banner2.png);
+  background-size:cover;
+  height: 200px;
+  background-color: purple;
+  background-position: center;
+}

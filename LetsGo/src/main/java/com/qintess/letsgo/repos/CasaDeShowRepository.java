@@ -10,5 +10,5 @@ import com.qintess.letsgo.models.Usuario;
 public interface CasaDeShowRepository extends JpaRepository<CasaDeShow, Integer>{
 	
 	public List<CasaDeShow> findByUsuario(Usuario usuario);
-
+	
 }

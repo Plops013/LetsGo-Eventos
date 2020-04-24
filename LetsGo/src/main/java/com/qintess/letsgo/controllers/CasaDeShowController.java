@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,9 +30,17 @@ public class CasaDeShowController {
 	@Autowired
 	UsuarioService usuarioService;
 	
+	@RequestMapping("")
+	public ModelAndView index(Model model) {
+		ModelAndView mv = new ModelAndView("/CasaDeShow/index");
+		List<CasaDeShow> casasDeShow = casaDeShowService.buscarTodos();
+		model.addAttribute("casasDeShow", casasDeShow);
+		return mv;
+	}
+	
 	@RequestMapping("/{id}")
 	public ModelAndView show(@PathVariable(name="id") int id, CasaDeShow casaDeShow) {
-		ModelAndView mv = new ModelAndView("/CasaDeShow/index");
+		ModelAndView mv = new ModelAndView("/CasaDeShow/show");
 		casaDeShow = casaDeShowService.buscarPorId(id);
 		mv.addObject(casaDeShow);
 		return mv;
@@ -40,7 +49,7 @@ public class CasaDeShowController {
 	@RequestMapping("/cadastrar")
 	public ModelAndView cadastrar(Model model, CasaDeShow casaDeShow) {
 		ModelAndView mv = new ModelAndView("/CasaDeShow/cadastrar");
-		List<CasaDeShow> casasDeShow = casaDeShowService.buscarTodos();
+		List<CasaDeShow> casasDeShow = casaDeShowService.buscaPorUsuario(usuarioService.buscaPorEmail(SecurityContextHolder.getContext().getAuthentication().getName()));
 		model.addAttribute("casasDeShow", casasDeShow);
 		return mv;
 	}
@@ -64,7 +73,7 @@ public class CasaDeShowController {
 			}
 			if(casaDeShow.getId() == 0) {
 				//Substituir aqui após fazer funcionar o security
-				casaDeShow.setUsuario(usuarioService.buscaPorEmail("binhopecora@gmail.com"));
+				casaDeShow.setUsuario(usuarioService.buscaPorEmail(SecurityContextHolder.getContext().getAuthentication().getName()));
 				casaDeShowService.insere(casaDeShow);
 				redirectAttributes.addFlashAttribute("mensagemSucesso", "Casa De Show Cadastrada Com Sucesso!");
 			} else {

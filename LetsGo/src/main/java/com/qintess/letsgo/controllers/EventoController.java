@@ -1,11 +1,13 @@
 package com.qintess.letsgo.controllers;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,6 +42,14 @@ public class EventoController {
 		ModelAndView mv = new ModelAndView("/Evento/show");
 		evento = eventoService.buscarPorId(id);
 		mv.addObject(evento);
+		return mv;
+	}
+	
+	@RequestMapping("/comprar/{id}")
+	public ModelAndView comprar(@PathVariable(name= "id") int id, Model model){
+		ModelAndView mv = new ModelAndView("/Evento/comprar");
+		Evento evento = eventoService.buscarPorId(id);
+		model.addAttribute("evento", evento);
 		return mv;
 	}
 	
@@ -86,7 +96,11 @@ public class EventoController {
 							   @RequestParam(required = true, value="casaDeShow") int id,
 							   Model model) {
 		CasaDeShow casaDeShowEvento = casaDeShowService.buscarPorId(id);
-		
+		if(evento.getDataInicio().isBefore(LocalDateTime.now())
+			|| evento.getDataInicio().isAfter(evento.getDataFim())) {
+			model.addAttribute("mensagemErro", "Por favor digite uma data valida");
+			return cadastrar(evento, model);
+		}
 		if(evento.getQuantidadeIngressosInicial() > casaDeShowEvento.getCapacidade()) {
 			//aqui caso capacidade seja menor que quantidade de ingressos
 			model.addAttribute("mensagemErro", "Seu evento não pode exceder a capacidade da sua casa de show: " 
@@ -117,7 +131,7 @@ public class EventoController {
 	
 	private List<CasaDeShow> casaDeShowPorUsuario(/*Usuario usuario*/) {
 		Usuario usuario = new Usuario();
-		usuario.setEmail("binhopecora@gmail.com");
+		usuario.setEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 		return casaDeShowService.buscaPorUsuario(usuarioService.buscaPorEmail(usuario.getEmail()));
 	}
 	

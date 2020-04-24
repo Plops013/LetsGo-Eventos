@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<spring:url value="/evento/comprar" var="comprar"></spring:url>
+<spring:url value="/evento/comprar/" var="comprar"></spring:url>
 <spring:url value="/CasaDeShow/" var="casaDeShow"></spring:url>
 <spring:url value="/" var="home"></spring:url>
 <link href="/css/bootstrap.min.css" rel="stylesheet" />
@@ -48,7 +48,7 @@
         <span style="font-size: 1.2em">Entrada Franca </span>
         </c:if>
         <c:if test="${evento.preco ne 0}">
-        <span style="font-size: 1.2em">R$:${evento.preco}</span>
+        <span style="font-size: 1.2em">R$:${evento.precoFormat}</span>
         </c:if>
       </h5>
       <h4 class="ml-4">Ingressos Disponíveis:</h4>
@@ -66,7 +66,7 @@
 				</div>
 				<div class="col-lg-6">
 				-->
-      <a href="${comprar}"
+      <a href="${comprar}${evento.id}"
         class="my-4 mx-4 btn btn-outline-success py-3"> <img
         src="/assets/icons/shopping-cart.svg"> Comprar Ingresso
       </a>

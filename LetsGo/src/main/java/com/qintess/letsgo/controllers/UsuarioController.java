@@ -54,17 +54,21 @@ public class UsuarioController {
 	
 	@RequestMapping("/perfil")
 	private ModelAndView perfil(Model model, Usuario usuario) {
-		usuario = usuarioService.buscaPorEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-		usuario.setSenha("");
-		model.addAttribute("usuario", usuario);
 		ModelAndView mv = new ModelAndView("/Usuario/meu_perfil");
-		return mv;
+		if(usuario.getNome() == null) {
+			usuario = usuarioService.buscaPorEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+			usuario.setSenha("");
+			model.addAttribute("usuario", usuario);
+			return mv;
+		} else {
+			return mv;
+		}
 	}
 
 	@RequestMapping("/alterar")
 	public ModelAndView alterar(Model model, @Valid Usuario usuario, 
 			BindingResult result, RedirectAttributes redirectAtt){
-//		ModelAndView mv = new ModelAndView("redirect:/perfil");
+		ModelAndView mv = new ModelAndView("redirect:/usuario/perfil");
 		if(result.hasErrors()) {
 			return perfil(model, usuario);
 		}
@@ -79,7 +83,7 @@ public class UsuarioController {
 			return perfil(model, usuario);
 		}
 		redirectAtt.addFlashAttribute("mensagemSucesso", "Usuario alterado com sucesso!");
-		return perfil(model, usuario);
+		return mv;
 	}
 	
 	@RequestMapping("/salva")

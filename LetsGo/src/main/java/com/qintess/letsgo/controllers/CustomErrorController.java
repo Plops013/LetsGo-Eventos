@@ -24,7 +24,8 @@ public class CustomErrorController implements ErrorController {
     	   model.addAttribute("erroMensagem", exception==null? "N/A": exception.getMessage());
       }
       } else {
-      model.addAttribute("erroMensagem", "Ops! essa pagina requer permisões na qual você não tem :( /n volte ao inicio!");
+    	  model.addAttribute("erroCodigo", "404");
+    	  model.addAttribute("erroMensagem", "Ops! essa pagina requer permisões na qual você não tem :( <br/> volte ao inicio!");
       }
       return mv;
   }

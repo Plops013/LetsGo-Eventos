@@ -1,7 +1,9 @@
 package com.qintess.letsgo.models;
 
 import java.io.UnsupportedEncodingException;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 
 import javax.persistence.Column;
@@ -52,36 +54,24 @@ public class Evento {
 	@Transient
 	private int IngressosVendidos;
 	private byte[] imagemEvento;
-	
+
 	public int getIngressosVendidos() {
 		return quantidadeIngressosInicial - quantidadeIngressos;
 	}
-	
+
 	public String getDataString() {
 		try {
-			String retorno = "";
-			retorno += dataInicio.getDayOfMonth()+"/";
-			retorno += dataInicio.getMonthValue()+"/";
-			retorno += dataInicio.getYear()+" ás ";
-			retorno += dataInicio.getHour()+":"+dataInicio.getMinute();
-			
-			if(dataInicio.getDayOfMonth() == dataFim.getDayOfMonth()
-			   && dataInicio.getMonth() == dataFim.getMonth()
-			   && dataInicio.getYear() == dataFim.getYear()) {
-				retorno+= " ~ " + dataFim.getHour() + ":" + dataFim.getMinute();
-			} else {
-				retorno+= " ~ " + dataFim.getDayOfMonth()+"/";
-				retorno += dataFim.getMonthValue()+"/";
-				retorno += dataFim.getYear()+" ás ";
-				retorno += dataFim.getHour()+":"+dataFim.getMinute();
-			}
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm");
+			String inicioFormatado = dataInicio.format(formatter);
+			String fimFormatado = dataFim.format(formatter);
+			String retorno = inicioFormatado + " ~ " + fimFormatado;
 			return retorno;
 		} catch(Exception e) {
 			e.printStackTrace();
 			return "erro na conversão da data";
 		}
 	}
-	
+
 	public String getImagemEncoded() {
 		try {
 			String base64Encoded;
@@ -112,6 +102,12 @@ public class Evento {
 	public double getPreco() {
 		return preco;
 	}
+
+	public String getPrecoFormat() {
+		DecimalFormat df = new DecimalFormat("###0.00");
+		return df.format(preco);
+	}
+
 	public void setPreco(double preco) {
 		this.preco = preco;
 	}
@@ -157,5 +153,5 @@ public class Evento {
 	public void setCasaDeShow(CasaDeShow casaDeShow) {
 		this.casaDeShow = casaDeShow;
 	}
-	
+
 }

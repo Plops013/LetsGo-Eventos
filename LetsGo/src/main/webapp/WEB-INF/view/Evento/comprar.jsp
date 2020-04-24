@@ -25,23 +25,22 @@
           <div class="col-sm-6">
             <h4>Evento:</h4>
             <h5
-              class="text-justify bg-light px-2 py-2 font-weight-light">Titulo
-              do Evento</h5>
+              class="text-justify bg-light px-2 py-2 font-weight-light">${evento.nome}</h5>
             <input id="idEvento" name="idEvento" value="${evento.id}"
               type="hidden" required readonly />
           </div>
           <div class="col-sm-6">
             <h4>Data do Evento:</h4>
             <h5
-              class="text-justify bg-light px-2 py-2 font-weight-light">Titulo
-              do Evento</h5>
+              class="text-justify bg-light px-2 py-2 font-weight-light">
+              ${evento.dataString}</h5>
           </div>
           <div class="col-sm-6">
             <h4>Valor Do Ingresso Unitario:</h4>
             <h5
               class="text-justify bg-light px-2 py-2 font-weight-light">R$:
-              50,00</h5>
-            <input id="valorUnitario" value="50.00" type="hidden"
+              ${evento.precoFormat}</h5>
+            <input id="valorUnitario" value="${evento.preco}" type="hidden"
               required readonly />
           </div>
           <div class="col-sm-6">

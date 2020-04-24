@@ -43,10 +43,10 @@
     <div class="form-group text-left py-0 my-0">
       <a href="${home}" class="text-left text-white">voltar</a>
     </div>
-    <div class="text-center justify-content-center mx-auto row">
+    <div class="text-center justify-content-center mx-auto">
       <div class="card collapse show multi-collapse mb-4"
         id="collapseForm">
-        <div class="card-body col-lg-12">
+        <div class="card-body">
           <h1 class="text-center dislay-4" id="evento">Cadastre Seu
             Evento</h1>
         </div>

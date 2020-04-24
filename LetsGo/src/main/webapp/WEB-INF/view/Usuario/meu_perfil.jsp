@@ -37,6 +37,7 @@
               <kbd class="text-capitalize">${usuario.papel.nome}</kbd>
             </h4>
             <form:hidden path="id" />
+            <form:hidden path="papel" />
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="nome">Nome</label>
@@ -58,17 +59,15 @@
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label for="sobrenome">Email</label>
-                <fieldset disabled>
-                  <form:input type="email"
+                  <form:input type="email" readonly="true"
                     cssClass="form-control-plaintext" path="email"
-                    cssErrorClass="form-control is-invalid" />
-                </fieldset>
+                    cssErrorClass="form-control-plaintext is-invalid" />
                 <div class="invalid-feedback">
                   <form:errors path="email" cssClass="error" />
                 </div>
               </div>
               <div class="form-group col-md-6">
-                <label for="sobrenome">Telefone</label>
+                <label for="telefone">Telefone</label>
                 <form:input cssClass="form-control" path="telefone"
                   cssErrorClass="form-control is-invalid" />
                 <div class="invalid-feedback">
