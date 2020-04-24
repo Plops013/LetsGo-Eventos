@@ -23,6 +23,7 @@ import com.qintess.letsgo.models.Evento;
 import com.qintess.letsgo.models.Usuario;
 import com.qintess.letsgo.services.CasaDeShowService;
 import com.qintess.letsgo.services.EventoService;
+import com.qintess.letsgo.services.PedidoService;
 import com.qintess.letsgo.services.UsuarioService;
 
 @Controller
@@ -35,6 +36,8 @@ public class EventoController {
 	UsuarioService usuarioService;
 	@Autowired
 	EventoService eventoService;
+	@Autowired
+	PedidoService pedidoService;
 	
 	@RequestMapping("/{id}")
 	public ModelAndView show(@PathVariable(name = "id")int id,
@@ -42,6 +45,23 @@ public class EventoController {
 		ModelAndView mv = new ModelAndView("/Evento/show");
 		evento = eventoService.buscarPorId(id);
 		mv.addObject(evento);
+		return mv;
+	}
+	
+	@RequestMapping("/finalizar")
+	public ModelAndView finalizar(
+			@RequestParam(value = "idEvento") int idEvento,
+			@RequestParam(value = "quantidade") int quantidade, Model model,
+			RedirectAttributes redirectAttributes) {
+		ModelAndView mv = new ModelAndView("redirec:/usuario/ingressos");
+		Evento evento = eventoService.buscarPorId(idEvento);
+		Usuario usuario = usuarioService.buscaPorEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+		if( quantidade > 4) {
+			model.addAttribute("mensagemErro", "Não tente burlar nossos sistemas, a quantidade máxima são 4 ingressos por pessoa!!!");
+			return comprar(idEvento, model);
+		}	
+		pedidoService.criaPedido(usuario, evento, quantidade);
+		redirectAttributes.addFlashAttribute("mensagemSucesso", "Ingressos Comprados Com Sucesso!");
 		return mv;
 	}
 	

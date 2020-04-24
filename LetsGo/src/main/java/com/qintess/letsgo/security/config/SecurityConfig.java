@@ -58,6 +58,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.hasRole("organizador")
 			.antMatchers("/evento/comprar/**")
 			.hasRole("cliente")
+			.antMatchers("/evento/finalizar")
+			.hasRole("cliente")
 			.antMatchers("/CasaDeShow/cadastrar", "/CasaDeShow/alterar/**" , "/CasaDeShow/deletar/**")
 			.hasRole("organizador")
 			.antMatchers("/evento/**", "/CasaDeShow/**", "/error")

@@ -29,10 +29,11 @@ public class ItemPedido {
 	private double subTotal;
 	
 	//Cria ingressos
-	public void geraIngressos(Evento evento) {
-		for (int i = 0; i >= this.quantidade; i++) {
+	public void geraIngressos(Evento evento, int quantidade) {
+		for (int i = 1; i <= this.quantidade; i++) {
 			Ingresso ingresso = new Ingresso();
 			ingresso.setEvento(evento);
+			ingresso.setItemPedido(this);
 			this.ingressos.add(ingresso);
 		}
 	}
@@ -68,9 +69,5 @@ public class ItemPedido {
 	//Lembrar de conferir isso aqui depois
 	public void setSubTotal(double subTotal) {
 		this.subTotal = subTotal;
-		calculaSubTotal();
-	}
-	public void calculaSubTotal() {
-		this.subTotal = (this.ingressos.get(0).getEvento().getPreco() * this.quantidade);
 	}
 }

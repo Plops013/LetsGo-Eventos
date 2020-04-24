@@ -6,6 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<spring:url value="/evento/finalizar" var="finalizar"></spring:url>
 <spring:url value="/usuario/cadastrar" var="cadastrar"></spring:url>
 <spring:url value="/" var="home"></spring:url>
 <link href="/css/bootstrap.min.css" rel="stylesheet" />
@@ -18,7 +19,8 @@
   <jsp:include page="${request.contextPath}/nav"></jsp:include>
   <div class="container my-3">
     <div class="card py-3 px-4">
-      <form:form>
+      <form:form action="${finalizar}">
+      <input type="hidden" name="idEvento" id="idEvento" value="${evento.id}">
         <h1 class="text-center py-3 bg-light text-justify">Finalizar
           Compra</h1>
         <div class="row">
@@ -47,7 +49,7 @@
             <div class="form-group">
               <h4>Quantidade:</h4>
               <input class="form-control px-2" value="0" id="quantidade"
-                type="number" max="4" required />
+                type="number" max="4" required name="quantidade" />
               <div class="invalid-feedback">Limite de 4 ingressos
                 por pessoa.</div>
             </div>
@@ -59,11 +61,11 @@
               R$: <span id="total" class="text-success text-weight-bold">0,00</span>
             </h4>
           </div>
-          <a href="${comprar}"
+          <button type="submit"
             class="my-4 mx-4 btn btn-block btn-outline-success py-3">
             <img src="/assets/icons/shopping-cart.svg"> Comprar
             Ingresso
-          </a>
+          </button>
         </div>
       </form:form>
     </div>

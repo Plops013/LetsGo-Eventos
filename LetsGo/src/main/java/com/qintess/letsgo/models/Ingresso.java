@@ -14,7 +14,7 @@ public class Ingresso {
 	private int id;
 	@ManyToOne(optional = false)
 	private Evento evento;
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private ItemPedido itemPedido;
 	
 	public int getId() {
@@ -29,5 +29,13 @@ public class Ingresso {
 	public void setEvento(Evento evento) {
 		this.evento = evento;
 	}
+	public ItemPedido getItemPedido() {
+		return itemPedido;
+	}
+	public void setItemPedido(ItemPedido itemPedido) {
+		this.itemPedido = itemPedido;
+	}
+	
+	
 	
 }

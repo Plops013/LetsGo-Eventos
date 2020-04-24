@@ -72,7 +72,6 @@ public class CasaDeShowController {
 				return cadastrar(model, casaDeShow);
 			}
 			if(casaDeShow.getId() == 0) {
-				//Substituir aqui após fazer funcionar o security
 				casaDeShow.setUsuario(usuarioService.buscaPorEmail(SecurityContextHolder.getContext().getAuthentication().getName()));
 				casaDeShowService.insere(casaDeShow);
 				redirectAttributes.addFlashAttribute("mensagemSucesso", "Casa De Show Cadastrada Com Sucesso!");

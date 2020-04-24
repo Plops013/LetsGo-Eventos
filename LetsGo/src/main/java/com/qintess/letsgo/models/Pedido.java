@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,17 +26,15 @@ public class Pedido {
 	private Double total = 0D;
 	@Column(nullable = false)
 	private LocalDateTime dataCompra;
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "pedido")
+	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "pedido")
 	private List<ItemPedido> items = new ArrayList<>();
 	
 	public void addItem(ItemPedido item) {
 		this.items.add(item);
-		this.total += item.getSubTotal();
 	}
 	
 	public void removeItem(ItemPedido item) {
 		this.items.remove(item);
-		this.total -= item.getSubTotal();
 	}
 	
 	public int getId() {
