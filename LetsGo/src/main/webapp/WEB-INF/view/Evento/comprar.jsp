@@ -20,9 +20,13 @@
   <div class="container my-3">
     <div class="card py-3 px-4">
       <form:form action="${finalizar}">
-      <input type="hidden" name="idEvento" id="idEvento" value="${evento.id}">
+        <input type="hidden" name="idEvento" id="idEvento"
+          value="${evento.id}">
         <h1 class="text-center py-3 bg-light text-justify">Finalizar
           Compra</h1>
+        <c:if test="${not empty mensagemErro}">
+          <div id="divMensagem" class="alert alert-danger" role="alert">${mensagemErro}</div>
+        </c:if>
         <div class="row">
           <div class="col-sm-6">
             <h4>Evento:</h4>
@@ -42,8 +46,8 @@
             <h5
               class="text-justify bg-light px-2 py-2 font-weight-light">R$:
               ${evento.precoFormat}</h5>
-            <input id="valorUnitario" value="${evento.preco}" type="hidden"
-              required readonly />
+            <input id="valorUnitario" value="${evento.preco}"
+              type="hidden" required readonly />
           </div>
           <div class="col-sm-6">
             <div class="form-group">
@@ -63,8 +67,7 @@
           </div>
           <button type="submit"
             class="my-4 mx-4 btn btn-block btn-outline-success py-3">
-            <img src="/assets/icons/shopping-cart.svg"> Comprar
-            Ingresso
+            <i class="fas fa-shopping-cart"></i> Comprar Ingresso
           </button>
         </div>
       </form:form>

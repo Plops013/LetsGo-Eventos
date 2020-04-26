@@ -1,5 +1,6 @@
 package com.qintess.letsgo.controllers;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.qintess.letsgo.models.Papel;
 import com.qintess.letsgo.models.Usuario;
 import com.qintess.letsgo.services.PapelService;
+import com.qintess.letsgo.services.PedidoService;
 import com.qintess.letsgo.services.UsuarioService;
 
 @Controller
@@ -33,8 +35,18 @@ public class UsuarioController {
 	@Autowired
 	PapelService papelService;
 	@Autowired
+	PedidoService pedidoService;
+	@Autowired
 	private AuthenticationManager authenticationManager;
 
+	@RequestMapping("/pedidos")
+	public ModelAndView verPedidos() {
+		ModelAndView mv = new ModelAndView("/Usuario/pedidos");
+		Usuario usuario = usuarioService.buscaPorEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+		mv.addObject("pedidos", pedidoService.buscaPorUsuario(usuario));
+		return mv;
+	}
+	
 	@RequestMapping("/cadastrar")
 	public ModelAndView cadastrar(Usuario usuario, Model model) {
 		ModelAndView mv = new ModelAndView("/Usuario/cadastrar");

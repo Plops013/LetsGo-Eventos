@@ -1,6 +1,7 @@
 package com.qintess.letsgo.services;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,10 @@ public class PedidoService {
 		
 	@Autowired
 	EventoService eventoService;
+	
+	public List<Pedido> buscaPorUsuario(Usuario usuario){
+		return pedidoRepository.findByUsuario(usuario);
+	}
 	
 	public void criaPedido(Usuario usuario, Evento evento, int quantidade) {
 		Pedido pedido = new Pedido();

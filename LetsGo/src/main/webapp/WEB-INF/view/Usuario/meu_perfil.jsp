@@ -96,7 +96,7 @@
               </div>
             </div>
             <div class="mx-auto mt-3 text-center">
-              <button type="submit" class="btn btn-success">Salvar
+              <button type="submit" class="btn btn-success"><i class="fas fa-user-check"></i> Salvar
                 Alterações</button>
               <a href="${home}" class="btn btn-primary">Retornar ao
                 inicio</a>

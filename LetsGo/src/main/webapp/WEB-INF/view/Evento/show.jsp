@@ -67,8 +67,7 @@
 				<div class="col-lg-6">
 				-->
       <a href="${comprar}${evento.id}"
-        class="my-4 mx-4 btn btn-outline-success py-3"> <img
-        src="/assets/icons/shopping-cart.svg"> Comprar Ingresso
+        class="my-4 mx-4 btn btn-outline-success py-3"> <i class="fas fa-shopping-cart"></i> Comprar Ingresso
       </a>
     </div>
   </div>

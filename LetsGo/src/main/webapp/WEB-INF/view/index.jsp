@@ -34,11 +34,12 @@
                 </h5>
                 <hr class="my-2"/>
                 <p class="text-center my-0">
-                  Ingressos Disponíveis: <span class="text-success">${evento.quantidadeIngressos}</span>
+                  <c:if test="${evento.quantidadeIngressos >= 0}">Ingressos Disponíveis: <span class="text-success"><i class="fas fa-ticket-alt"></i> ${evento.quantidadeIngressos}</span></c:if>
+                  <c:if test="${evento.quantidadeIngressos <= 0}"><span class="text-danger">Ingressos: <i class="fas fa-ticket-alt"></i> ${evento.quantidadeIngressos}</span></c:if>  
                 </p>
-                <p class="text-center my-0">${evento.casaDeShow.cidade}
+                <p class="text-center my-0"><i class="fas fa-map-marked-alt"></i> ${evento.casaDeShow.cidade}
                   - ${evento.casaDeShow.estado}</p>
-                <p class="text-center my-0">${evento.dataString }</p>
+                <p class="text-center my-0"><i class="far fa-calendar-alt"></i> ${evento.dataString }</p>
 
               </div>
 

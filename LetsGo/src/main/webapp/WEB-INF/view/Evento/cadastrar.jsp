@@ -56,7 +56,7 @@
         <c:if test="${not empty mensagemSucesso}">
           <div id="divMensagem" class="alert alert-success" role="alert">${mensagemSucesso}</div>
         </c:if>
-        <form:form action="${salvar}" cssClass="px-3"
+        <form:form action="${salvar}" cssClass="px-3" 
           modelAttribute="evento" enctype="multipart/form-data">
           <form:hidden path="id" />
           <form:hidden path="imagemEvento" />
@@ -115,7 +115,7 @@
             <div class="form-group col-md-6">
               <label for="senha">Data Inicio</label>
               <form:input cssClass="form-control" path="dataInicio"
-                type="datetime-local"
+                type="datetime-local" max="9999-12-31T23:59"
                 cssErrorClass="form-control is-invalid" />
               <div class="invalid-feedback">
                 <form:errors path="dataInicio" cssClass="error" />
@@ -124,7 +124,7 @@
             <div class="form-group col-md-6">
               <label for="confirmaSenha">Data Fim</label>
               <form:input cssClass="form-control" path="dataFim"
-                type="datetime-local"
+                type="datetime-local" max="9999-12-31T23:59"
                 cssErrorClass="form-control is-invalid" />
               <div class="invalid-feedback">
                 <form:errors path="dataFim" cssClass="error" />
@@ -146,24 +146,26 @@
           <c:if test="${evento.id == 0}">
             <div class="form-row">
               <div class="col-sm-12 mx-auto">
-                <img class="rounded h-auto mx-auto w-30 my-1" id="imagemAlterar" alt=""
-                  style="width: 400px; height: 800px"
-                  src="" />
+                <img class="rounded h-auto mx-auto w-30 my-1"
+                  id="imagemAlterar" alt=""
+                  style="width: 400px; height: 800px" src="" />
               </div>
             </div>
           </c:if>
-            <div class="form-row">
-              <div class="col-sm-12 mx-auto">
-                <img class="rounded h-auto mx-auto w-30 my-1" id="imagemAlterar" alt=""
-                  style="width: 400px; height: 800px"
-                  src="data:image/jpge;base64,${evento.id ne 0? evento.imagemEncoded: ''}" />
-              </div>
+          <div class="form-row">
+            <div class="col-sm-12 mx-auto">
+              <img class="rounded h-auto mx-auto w-30 my-1"
+                id="imagemAlterar" alt=""
+                style="width: 400px; height: 800px"
+                src="data:image/jpge;base64,${evento.id ne 0? evento.imagemEncoded: ''}" />
             </div>
+          </div>
           <div class="mx-auto text-center">
-            <button type="submit" class="btn btn-success">${evento.id == 0? 'Cadastrar' : 'Alterar' }
+            <button type="submit" class="btn btn-success" onclick="trocaImagem()">${evento.id == 0? 'Cadastrar' : 'Alterar' }
               Evento</button>
-              <c:if test="${evento.id ne 0}"><a href="${cancelar}" class="btn btn-danger">Cancelar</a>
-              </c:if>
+            <c:if test="${evento.id ne 0}">
+              <a href="${cancelar}" class="btn btn-danger">Cancelar</a>
+            </c:if>
           </div>
           <img>
         </form:form>
@@ -208,7 +210,7 @@
                     <td>${eventoItem.dataString}</td>
                     <td>${eventoItem.preco}</td>
                     <td>${eventoItem.quantidadeIngressosInicial }</td>
-                    <td>${eventoItem.ingressosVendidos }</td>
+                    <td>${eventoItem.ingressosVendidos}</td>
                     <td><img
                       class="rounded h-auto mx-auto w-30 my-1" alt=""
                       style="width: 30px; height: 30px"
@@ -216,7 +218,7 @@
                     </td>
                     <td class="pr-0"><a
                       class="btn btn-warning mr-1 py-0"
-                      href="${alterar}${eventoItem.id}">Alterar</a></td>
+                      href="${alterar}${eventoItem.id}" >Alterar</a></td>
                     <td class="pl-0"><a
                       class="btn btn-danger ml-0 py-0"
                       onclick="return confirm('Deseja realmente deletar o Evento: ${eventoItem.nome} ?')"
@@ -228,55 +230,32 @@
           </div>
         </c:if>
       </div>
-
-    </div>
-  </div>
-
-  <div class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Instruções para Imagem</h5>
-          <button type="button" class="close" data-dismiss="modal"
-            aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <ul>
-            <li>Sua imagem deve ter o tamanho exato de <strong>800px
-                X 400px</strong></li>
-            <li>Sua imagem deve ter no maximo 10MB</li>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary"
-            data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save
-            changes</button>
-        </div>
-      </div>
     </div>
   </div>
   <script>
-  var uploadfoto = document.getElementById('customFile');
-  var fotopreview = document.getElementById('imagemAlterar');
+			function trocaImagem() {
+				if (document.getElementById("customFile").value != 0)
+					document.getElementById("imagemEvento").value = 0;
+			};
 
-  uploadfoto.addEventListener('change', function(e) {
-      showThumbnail(this.files);
-  });
-
-  function showThumbnail(files) {
-      if (files && files[0]) {
-      var reader = new FileReader();
-
-      reader.onload = function (e) {
-         fotopreview.src = e.target.result;
-      }
-
-          reader.readAsDataURL(files[0]);
-      }
-  }
-  </script>
+  			var uploadfoto = document.getElementById('customFile');
+  			var fotopreview = document.getElementById('imagemAlterar');
+  
+  			uploadfoto.addEventListener('change', function(e) {
+  				showThumbnail(this.files);
+  			});
+  
+  			function showThumbnail(files) {
+  				if (files && files[0]) {
+  					var reader = new FileReader();
+  
+  					reader.onload = function(e) {
+  						fotopreview.src = e.target.result;
+  					}
+  
+  					reader.readAsDataURL(files[0]);
+  				}
+  			}
+		</script>
 </body>
 </html>

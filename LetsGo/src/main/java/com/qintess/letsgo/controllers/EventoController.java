@@ -53,13 +53,21 @@ public class EventoController {
 			@RequestParam(value = "idEvento") int idEvento,
 			@RequestParam(value = "quantidade") int quantidade, Model model,
 			RedirectAttributes redirectAttributes) {
-		ModelAndView mv = new ModelAndView("redirec:/usuario/ingressos");
+		ModelAndView mv = new ModelAndView("redirect:/usuario/pedidos");
 		Evento evento = eventoService.buscarPorId(idEvento);
 		Usuario usuario = usuarioService.buscaPorEmail(SecurityContextHolder.getContext().getAuthentication().getName());
 		if( quantidade > 4) {
 			model.addAttribute("mensagemErro", "Não tente burlar nossos sistemas, a quantidade máxima são 4 ingressos por pessoa!!!");
 			return comprar(idEvento, model);
 		}	
+		if(evento.getQuantidadeIngressos() <= 0) {
+			model.addAttribute("mensagemErro", "Esse evento não tem mais ingressos disponiveis!");
+			return comprar(idEvento, model);
+		}
+		if(evento.getQuantidadeIngressos() < quantidade) {
+			model.addAttribute("mensagemErro", "Você não pode comprar mais ingressos do que a quantidade disponivél desse evento, atualmente a quantidade disponivel é: " + evento.getQuantidadeIngressos());
+			return comprar(idEvento, model);
+		}
 		pedidoService.criaPedido(usuario, evento, quantidade);
 		redirectAttributes.addFlashAttribute("mensagemSucesso", "Ingressos Comprados Com Sucesso!");
 		return mv;
@@ -89,7 +97,7 @@ public class EventoController {
 			eventoService.deleta(id);
 			redirectAttributes.addFlashAttribute("mensagemExclusao", "Evento excluido! ");
 		} catch (Exception e) {
-			redirectAttributes.addFlashAttribute("mensagemExclusaoErro", "Ops! houve um erro ao excluir esse Evento.");
+			redirectAttributes.addFlashAttribute("mensagemExclusaoErro", "Ops! houve um erro ao excluir esse Evento. Seu evento nao pode ter ingressos vendidos <i class=\"fas fa-exclamation\"></i>");
 			e.printStackTrace();
 		}
 			return "redirect:/evento/cadastrar";
@@ -137,7 +145,9 @@ public class EventoController {
 				model.addAttribute("mensagemErro", "Foto é obrigatório");
 				return cadastrar(evento,model);
 			}
+			if(evento.getId() == 0) {
 			evento.setQuantidadeIngressos(evento.getQuantidadeIngressosInicial());
+			} 
 			evento.setCasaDeShow(casaDeShowEvento);
 			eventoService.insere(evento);
 			model.addAttribute("mensagemSucesso", "Evento Cadastrado Com Sucesso!");

@@ -45,6 +45,8 @@ public class Evento {
 	@Column(nullable = false, columnDefinition = "DECIMAL(10,2)")
 	@NotNull
 	private double preco;
+	@Transient
+	private int ingressosVendidos;
 	@ManyToOne
 	private CasaDeShow casaDeShow;
 	@Transient
@@ -56,10 +58,11 @@ public class Evento {
 	private byte[] imagemEvento;
 
 	public int getIngressosVendidos() {
-		return quantidadeIngressosInicial - quantidadeIngressos;
+		return ingressosVendidos;
 	}
 
 	public void ingressosVendidos(int quantidade) {
+		this.ingressosVendidos += quantidade;
 		this.quantidadeIngressos -= quantidade;
 	}
 	
