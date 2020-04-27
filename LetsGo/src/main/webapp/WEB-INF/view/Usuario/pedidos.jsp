@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<spring:url value="/CasaDeShow/" var="casaDeShow"></spring:url>
 <link href="/css/bootstrap.min.css" rel="stylesheet" />
 <link href="/css/style.css" rel="stylesheet" />
 <script src="https://kit.fontawesome.com/1e0a299eba.js"></script>
@@ -19,25 +20,41 @@
     <div class="row px-1">
       <div class="card col-lg-12 mb-3">
         <h2 class="text-center my-3 text-primary">Meus Pedidos</h2>
-        <div class="card collapse bg-dark my-3 py-3 px-3" id="pedidoId">
-        <h3 class="text-center text-light">ID Pedido: #1</h3>
-          <h5 class="text-center my-0 py-0 text-light">Nome do Evento</h5>
-          <p class="my-0 py-0 text-light">Data: 18/04/2021 22:00 ~ 19/04/2021
-            22:00</p>
-          <p class="my-0 py-0 text-light">Quantidade de ingressos: 4</p>
-          <div class="row mt-2 justify-content-md-center">
-            <div class="col-md-3 px-4">
-              <div class="card border-info">
-                <p class="mt-2 mb-0 py-0 text-primary"><i class="fas fa-ticket-alt"></i></p>
-                <hr class="my-2 py-0"/>
-                <p class="my-0 py-0">#E47I1 s</p>
-                <p class="my-0 py-0">Rock In Rio</p>
-                <p class="my-0 py-0">Data: 20/04/2020 22:00</p>
-                <p class="my-0 py-0">R$: 20,00</p>
-              </div>
+        <c:forEach var="pedido" items="${pedidos}">
+
+          <div class="card collapse bg-dark my-3 py-3 px-3"
+            id='pedido${pedido.id}'>
+            <h3 class="text-center text-light">ID Pedido:
+              #${pedido.id}</h3>
+            <h5 class="text-center my-0 py-0 text-light">${pedido.item.ingressos[0].evento.nome}</h5>
+            <p class="my-0 py-0 text-light">Data Compra:
+              ${pedido.dataString}</p>
+            <p class="my-0 py-0 text-light">Data:
+              ${pedido.item.ingressos[0].evento.dataString}</p>
+            <p class="my-0 py-0 text-light">Quantidade de ingressos:
+              ${pedido.item.quantidade}</p>
+          <p class="my-0 py-0 text-light">Local:
+             <a href="${casaDeShow}${pedido.item.ingressos[0].evento.casaDeShow.id}"> ${pedido.item.ingressos[0].evento.casaDeShow.nome}</a></p>
+            <div class="row mt-2 justify-content-md-center">
+              <c:forEach var="ingresso" items="${pedido.item.ingressos}">
+                <div class="col-md-3 px-4">
+                  <div class="card border-info">
+                    <p class="mt-2 mb-0 py-0 text-primary">
+                      <i class="fas fa-ticket-alt"></i>
+                    </p>
+                    <hr class="my-2 py-0" />
+                    <p class="my-0 py-0">#E${ingresso.evento.id}I${ingresso.id}</p>
+                    <p class="my-0 py-0">${ingresso.evento.nome}</p>
+                    <p class="my-0 py-0">${ingresso.evento.dataInicioString}</p>
+                    <p class="my-0 py-0">R$: ${ingresso.evento.preco }</p>
+                  </div>
+                </div>
+              </c:forEach>
             </div>
+
           </div>
-        </div>
+        </c:forEach>
+
         <table class="table table-striped">
           <thead>
             <tr>
@@ -50,37 +67,42 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Major</td>
-              <td>18/04/2020</td>
-              <td>4</td>
-              <td>193,99</td>
-
-              <td><a data-toggle="collapse" href="#pedidoId"
-                role="button" aria-expanded="false"
-                aria-controls="pedidoId"><i class="fas fa-plus-square"></i></a></td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-              <td>@fat</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Larry</td>
-              <td>the Bird</td>
-              <td>@twitter</td>
-              <td>@fat</td>
-              <td>@fat</td>
-            </tr>
+            <c:forEach var="pedido" items="${pedidos}">
+              <tr>
+                <th scope="row">${pedido.id}</th>
+                <td>${pedido.item.ingressos[0].evento.nome}</td>
+                <td>${pedido.dataString}</td>
+                <td>${pedido.item.quantidade}</td>
+                <td>${pedido.total }</td>
+                <td><a data-toggle="collapse"
+                  href='#pedido${pedido.id}' role="button"
+                  aria-expanded="false"
+                  aria-controls='#pedido${pedido.id}'> <i
+                    onclick="trocaIcone(${pedido.id})" class="fas fa-plus-square"
+                    id="icone${pedido.id}"></i></a></td>
+              </tr>
+            </c:forEach>
           </tbody>
         </table>
       </div>
     </div>
   </div>
+  <script>
+    function trocaIcone(id){
+    var idIcon = "#icone" + id;
+    if($(idIcon).hasClass("fa-plus-square")){
+    	$(idIcon).removeClass("fa-plus-square");
+    	$(idIcon).removeClass("text-primary");
+    	$(idIcon).addClass("fa-minus-square");
+    	$(idIcon).addClass("text-danger");
+    } else {
+    	$(idIcon).addClass("fa-plus-square");
+    	$(idIcon).addClass("text-primary");
+    	$(idIcon).removeClass("fa-minus-square");
+    	$(idIcon).removeClass("text-danger");
+    }
+    }
+    
+  </script>
 </body>
 </html>

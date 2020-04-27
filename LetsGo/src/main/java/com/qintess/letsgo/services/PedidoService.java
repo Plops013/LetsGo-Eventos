@@ -36,13 +36,11 @@ public class PedidoService {
 		itemPedido.setPedido(pedido);
 		itemPedido.geraIngressos(evento, quantidade);
 		itemPedido.setSubTotal(evento.getPreco() * quantidade);
-		pedido.addItem(itemPedido);
+		pedido.setItem(itemPedido);
 		
 		evento.ingressosVendidos(quantidade);
-		
 		eventoService.insere(evento);
 		this.insere(pedido);
-		
 	}
 	
 	public void insere(Pedido pedido) {

@@ -56,6 +56,8 @@ public class Evento {
 	@Transient
 	private int IngressosVendidos;
 	private byte[] imagemEvento;
+	@Transient 
+	private String dataInicioString;
 
 	public int getIngressosVendidos() {
 		return ingressosVendidos;
@@ -64,6 +66,18 @@ public class Evento {
 	public void ingressosVendidos(int quantidade) {
 		this.ingressosVendidos += quantidade;
 		this.quantidadeIngressos -= quantidade;
+	}
+	
+	public String getDataInicioString() {
+		try {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm");
+			String inicioFormatado = dataInicio.format(formatter);
+			String retorno = inicioFormatado;
+			return retorno;
+		} catch(Exception e) {
+			e.printStackTrace();
+			return "erro na conversão da data";
+		}
 	}
 	
 	public String getDataString() {

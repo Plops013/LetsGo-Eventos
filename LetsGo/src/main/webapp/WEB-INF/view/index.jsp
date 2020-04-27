@@ -34,7 +34,7 @@
                 </h5>
                 <hr class="my-2"/>
                 <p class="text-center my-0">
-                  <c:if test="${evento.quantidadeIngressos >= 0}">Ingressos Disponíveis: <span class="text-success"><i class="fas fa-ticket-alt"></i> ${evento.quantidadeIngressos}</span></c:if>
+                  <c:if test="${evento.quantidadeIngressos > 0}">Ingressos Disponíveis: <span class="text-success"><i class="fas fa-ticket-alt"></i> ${evento.quantidadeIngressos}</span></c:if>
                   <c:if test="${evento.quantidadeIngressos <= 0}"><span class="text-danger">Ingressos: <i class="fas fa-ticket-alt"></i> ${evento.quantidadeIngressos}</span></c:if>  
                 </p>
                 <p class="text-center my-0"><i class="fas fa-map-marked-alt"></i> ${evento.casaDeShow.cidade}

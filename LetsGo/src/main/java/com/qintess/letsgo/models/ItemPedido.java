@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 
 @Entity
@@ -19,7 +20,7 @@ public class ItemPedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@ManyToOne(optional = false)
+	@OneToOne(optional = false)
 	private Pedido pedido;
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "itemPedido")
 	private List<Ingresso> ingressos = new ArrayList<>();

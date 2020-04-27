@@ -1,8 +1,7 @@
 package com.qintess.letsgo.models;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -12,7 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 @Entity
 public class Pedido {
@@ -26,15 +26,21 @@ public class Pedido {
 	private Double total = 0D;
 	@Column(nullable = false)
 	private LocalDateTime dataCompra;
-	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "pedido")
-	private List<ItemPedido> items = new ArrayList<>();
+	@OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "pedido")
+	private ItemPedido item;
+	@Transient
+	private String dataString;
 	
-	public void addItem(ItemPedido item) {
-		this.items.add(item);
-	}
-	
-	public void removeItem(ItemPedido item) {
-		this.items.remove(item);
+	public String getDataString() {
+		try {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm");
+			String inicioFormatado = dataCompra.format(formatter);
+			String retorno = inicioFormatado;
+			return retorno;
+		} catch(Exception e) {
+			e.printStackTrace();
+			return "erro na conversão da data";
+		}
 	}
 	
 	public int getId() {
@@ -60,5 +66,11 @@ public class Pedido {
 	}
 	public void setDataCompra(LocalDateTime dataCompra) {
 		this.dataCompra = dataCompra;
+	}
+	public ItemPedido getItem() {
+		return item;
+	}
+	public void setItem(ItemPedido item) {
+		this.item = item;
 	}
 }
