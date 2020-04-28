@@ -2,11 +2,12 @@
 Projeto feito utilizando: <strong>Spring MVC, Spring Boot, Spring Security, PostgresSQL, Hibernate 
 e JSP utilizando Bootstrap no CSS e JQuery para alguns detalhes.</strong>
 <hr/>
-# Essencial para o funcionamento:
-Inserir os papeis no banco de dados seguindo o script:
-INSERT INTO PAPEL (nome) VALUES('cliente');
-INSERT INTO PAPEL (nome) VALUES('organizador');
+<h2> Essencial para o funcionamento: </h2>
 
+ Inserir os papeis no banco de dados seguindo o script: <br/>
+INSERT INTO PAPEL (nome) VALUES('cliente'); <br/>
+INSERT INTO PAPEL (nome) VALUES('organizador'); <br/>
+<br/>
 Também disponível no import.sql
 
 <hr/>
