@@ -39,7 +39,7 @@
                   required>
               </div>
               <div class="form-group list-inline">
-                <input id="password" name="password" placeholder="Senha"
+                <input id="password" name="password" type="password" placeholder="Senha"
                   class="form-control form-control-sm" type="text"
                   required>
               </div>
