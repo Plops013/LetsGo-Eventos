@@ -2,6 +2,14 @@
 Projeto feito utilizando: <strong>Spring MVC, Spring Boot, Spring Security, PostgresSQL, Hibernate 
 e JSP utilizando Bootstrap no CSS e JQuery para alguns detalhes.</strong>
 <hr/>
+# Essencial para o funcionamento:
+Inserir os papeis no banco de dados seguindo o script:
+INSERT INTO PAPEL (nome) VALUES('cliente');
+INSERT INTO PAPEL (nome) VALUES('organizador');
+
+Também disponível no import.sql
+
+<hr/>
 <strong>Site para cadastro e compras de eventos seguindo essa descrição: </strong>
 
 O desafio será passado em formato descritivo, sendo as únicas premissas técnicas:
