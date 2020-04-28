@@ -105,7 +105,7 @@ public class UsuarioController {
 			@RequestParam(value = "radioPapel") String nomePapel,
 			HttpServletRequest req){
 
-		ModelAndView mv = new ModelAndView("redirect:/usuario/cadastrar");
+		ModelAndView mv = new ModelAndView("redirect:../");
 		try {
 			if(!checkBoxTermos) {
 				model.addAttribute("mensagemErro", "Você deve concordar com os termos de uso!");

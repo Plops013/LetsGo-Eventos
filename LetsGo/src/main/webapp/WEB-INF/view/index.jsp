@@ -56,5 +56,31 @@
     </div>
   </div>
 
+<div class="modal fade" id="cadastradoModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Cadastro Efetuado Com Sucesso!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Parabéns você foi registrado com sucesso! está esperando oque para começar a se divertir em nossa plataforma?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">Vamos lá!</button>
+      </div>
+    </div>
+  </div>
+  <c:if test="${not empty mensagemSucesso}">
+  <script>
+  $(document).ready(function(){
+      $("#cadastradoModel").modal('show');
+  });
+  </script>
+  </c:if>
+</div>
+
 </body>
 </html>

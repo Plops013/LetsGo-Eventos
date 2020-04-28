@@ -33,8 +33,11 @@
               ${pedido.item.ingressos[0].evento.dataString}</p>
             <p class="my-0 py-0 text-light">Quantidade de ingressos:
               ${pedido.item.quantidade}</p>
-          <p class="my-0 py-0 text-light">Local:
-             <a href="${casaDeShow}${pedido.item.ingressos[0].evento.casaDeShow.id}"> ${pedido.item.ingressos[0].evento.casaDeShow.nome}</a></p>
+            <p class="my-0 py-0 text-light">
+              Local: <a
+                href="${casaDeShow}${pedido.item.ingressos[0].evento.casaDeShow.id}">
+                ${pedido.item.ingressos[0].evento.casaDeShow.nome}</a>
+            </p>
             <div class="row mt-2 justify-content-md-center">
               <c:forEach var="ingresso" items="${pedido.item.ingressos}">
                 <div class="col-md-3 px-4">
@@ -78,8 +81,8 @@
                   href='#pedido${pedido.id}' role="button"
                   aria-expanded="false"
                   aria-controls='#pedido${pedido.id}'> <i
-                    onclick="trocaIcone(${pedido.id})" class="fas fa-plus-square"
-                    id="icone${pedido.id}"></i></a></td>
+                    onclick="trocaIcone(${pedido.id})"
+                    class="fas fa-plus-square" id="icone${pedido.id}"></i></a></td>
               </tr>
             </c:forEach>
           </tbody>
@@ -87,6 +90,34 @@
       </div>
     </div>
   </div>
+
+  <div class="modal fade" id="cadastradoModel" tabindex="-1"
+    role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Pedido Realizado Com Sucesso!</h5>
+          <button type="button" class="close" data-dismiss="modal"
+            aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">Tudo certo durante a sua compra, ansioso pelo ${pedidoEventoSucesso.nome}?</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success"
+            data-dismiss="modal">Com certeza!</button>
+        </div>
+      </div>
+    </div>
+    <c:if test="${not empty mensagemSucesso}">
+      <script>
+  $(document).ready(function(){
+      $("#cadastradoModel").modal('show');
+  });
+  </script>
+    </c:if>
+  </div>
+
   <script>
     function trocaIcone(id){
     var idIcon = "#icone" + id;

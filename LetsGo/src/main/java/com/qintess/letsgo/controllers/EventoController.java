@@ -59,7 +59,16 @@ public class EventoController {
 		if( quantidade > 4) {
 			model.addAttribute("mensagemErro", "Não tente burlar nossos sistemas, a quantidade máxima são 4 ingressos por pessoa!!!");
 			return comprar(idEvento, model);
-		}	
+		}
+		if(quantidade <= 0) {
+			model.addAttribute("mensagemErro", "Digite uma quantidade valida");
+			return comprar(idEvento, model);
+		}
+		if(usuarioService.ingressoCompradoPorUsuario(evento, usuario) >= 4 
+		|| usuarioService.ingressoCompradoPorUsuario(evento, usuario) + quantidade > 4) {
+			model.addAttribute("mensagemErro", "Você não pode comprar mais que 4 ingressos do mesmo evento!");
+			return comprar(idEvento, model);
+		}
 		if(evento.getQuantidadeIngressos() <= 0) {
 			model.addAttribute("mensagemErro", "Esse evento não tem mais ingressos disponiveis!");
 			return comprar(idEvento, model);
@@ -70,6 +79,7 @@ public class EventoController {
 		}
 		pedidoService.criaPedido(usuario, evento, quantidade);
 		redirectAttributes.addFlashAttribute("mensagemSucesso", "Ingressos Comprados Com Sucesso!");
+		redirectAttributes.addFlashAttribute("pedidoEventoSucesso", evento);
 		return mv;
 	}
 	

@@ -10,5 +10,5 @@ import com.qintess.letsgo.models.Usuario;
 public interface PedidoRepository extends JpaRepository<Pedido, Integer> {
 
 	public List<Pedido> findByUsuario(Usuario usuario);
-	
+
 }
